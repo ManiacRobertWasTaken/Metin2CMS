@@ -38,28 +38,37 @@
 	} else if(isset($_POST['install']) && isset($_POST['name']))
 	{
 		$edited = false;
-		$file = 'update.zip';
-		$download = file_get_contents_curl('https://new.metin2cms.cf/v2/languages/'.$_POST['install'].'.zip', 2, 10);
-		file_put_contents($file, $download);
-
-		if(file_exists($file)) {
-			$tryUpdate = ZipExtractUpdate();
-			if($tryUpdate[0])
+		$langKey = preg_replace('/[^a-zA-Z0-9_-]/', '', $_POST['install']);
+		if($langKey !== '' && $langKey === $_POST['install'])
+		{
+			$file = 'update.zip';
+			$url = 'https://new.metin2cms.cf/v2/languages/'.$langKey.'.zip';
+			$download = file_get_contents_curl($url, 2, 10);
+			if($download !== false && strlen($download) > 0)
 			{
-				if(!isset($json_languages['languages'][$_POST['install']]))
-				{
-					$json_languages['languages'][$_POST['install']] = $_POST['name'];
-					$edited = true;
-				}
-				
-				if($edited)
-				{
-					$json_new = json_encode($json_languages);
-					file_put_contents('include/db/languages.json', $json_new);
+				file_put_contents($file, $download);
+
+				if(file_exists($file)) {
+					$tryUpdate = ZipExtractUpdate();
+					if($tryUpdate[0])
+					{
+						if(!isset($json_languages['languages'][$langKey]))
+						{
+							$json_languages['languages'][$langKey] = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+							$edited = true;
+						}
+
+						if($edited)
+						{
+							$json_new = json_encode($json_languages);
+							file_put_contents('include/db/languages.json', $json_new);
+						}
+					}
+					@unlink($file);
 				}
 			}
 		}
-		
+
 		header("Location: ".$site_url.'admin/language');
 		die();
 	}
