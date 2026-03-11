@@ -1233,8 +1233,9 @@
 		$stmt->bindParam(1, $coins, PDO::PARAM_INT);
 		$stmt->bindParam(2, $account_id, PDO::PARAM_INT);
 		$stmt->execute();
+		Cache::getInstance()->del('account:coins:'.$account_id);
 	}
-	
+
 	function addjCoins($account_id, $coins)
 	{
 		global $database;
@@ -1246,6 +1247,7 @@
 		$stmt->bindParam(1, $coins, PDO::PARAM_INT);
 		$stmt->bindParam(2, $account_id, PDO::PARAM_INT);
 		$stmt->execute();
+		Cache::getInstance()->del('account:jcoins:'.$account_id);
 	}
 	
 	function updateVote4Coins($site, $ip)
