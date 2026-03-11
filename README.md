@@ -144,7 +144,7 @@ docker --version
 ### 2. Clone the repo
 
 ```sh
-git clone https://github.com/IonutPopescuRO/Metin2CMS.git
+git clone https://github.com/ManiacRobertWasTaken/Metin2CMS.git
 cd Metin2CMS
 ```
 
