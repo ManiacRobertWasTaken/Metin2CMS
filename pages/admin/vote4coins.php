@@ -1,5 +1,6 @@
 <div class="container">
     <form action="" method="post">
+		<?php echo csrfField(); ?>
 		<div class="form-group row">
 			<div class="col-sm-4">
 				<input type="text" class="form-control" name="site_name" placeholder="Site">
@@ -36,7 +37,7 @@
 	
 	<?php if(count($jsondataVote4Coins)) { ?>
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<th>#</th>
 				<th>Site</th>
@@ -50,11 +51,11 @@
 		<?php $i=1; foreach($jsondataVote4Coins as $key => $vote4coins) { ?>
 			<tr>
 				<th scope="row"><?php print $i++; ?></th>
-				<td><?php print $vote4coins['name']; ?></td>
+				<td><?php print e($vote4coins['name']); ?></td>
 				<td><?php if($vote4coins['type']==1) print 'MD'; else print 'JD'; ?></td>
-				<td><?php print $vote4coins['value']; ?></td>
-				<td><?php print $vote4coins['time'].' '.$lang['hours']; ?></td>
-				<td><a href="<?php print $site_url.'admin/vote4coins/'.$key; ?>" class="btn btn-primary btn-sm"><?php print $lang['delete']; ?></a></td>
+				<td><?php print e($vote4coins['value']); ?></td>
+				<td><?php print e($vote4coins['time']).' '.$lang['hours']; ?></td>
+				<td><form action="" method="post" style="display:inline"><?php echo csrfField(); ?><input type="hidden" name="del" value="<?php print intval($key); ?>"><button type="submit" name="submit_delete" class="btn btn-primary btn-sm"><?php print $lang['delete']; ?></button></form></td>
 			</tr>
 		<?php } ?>
 		</tbody>

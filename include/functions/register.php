@@ -2,7 +2,7 @@
 	if(isset($_POST['captcha']) && isset($_POST['username']) && isset($_POST['password']) && isset($_POST['rpassword']) && isset($_POST['email']) && isset($_SESSION['captcha']['code']))
 	{
 		$errors = array();
-		if($_POST['captcha'] != $_SESSION['captcha']['code'])
+		if(!hash_equals($_SESSION['captcha']['code'], $_POST['captcha']))
 			$errors[]=$lang['incorrect-security'];
 		if(!isValidUserName($_POST['username']))
 			$errors[]=$lang['incorrect-usermane'];
@@ -18,8 +18,8 @@
 			$errors[]=$lang['already-email'];
 		
 		foreach($errors as $error)
-			print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			  </button>
 			  '.$error.'

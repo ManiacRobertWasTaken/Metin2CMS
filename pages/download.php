@@ -7,7 +7,7 @@
 	
 	<?php if(count($jsondataDownload)) { ?>
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<th style="width: 15%">#</th>
 				<th style="width: 70%">Server</th>
@@ -18,8 +18,8 @@
 		<?php $i=1; foreach($jsondataDownload as $key => $download) { ?>
 			<tr>
 				<th scope="row"><?php print $i++; ?></th>
-				<td><?php print $download['name']; ?></td>
-				<td><a href="<?php print $download['link']; ?>" class="btn btn-primary btn-sm"><?php print $lang['download']; ?></a></td>
+				<td><?php print e($download['name']); ?></td>
+				<td><a href="<?php print e($download['link']); ?>" class="btn btn-primary btn-sm"><?php print $lang['download']; ?></a></td>
 			</tr>
 		<?php } ?>
 		</tbody>

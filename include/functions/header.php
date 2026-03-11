@@ -1,7 +1,31 @@
 <?php
+	ini_set('session.cookie_httponly', 1);
+	ini_set('session.cookie_samesite', 'Lax');
+	ini_set('session.use_strict_mode', 1);
 	session_start();
-	
+
+	if(empty($_SESSION['csrf_token']))
+		$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+	function csrfField() {
+		return '<input type="hidden" name="csrf_token" value="'.$_SESSION['csrf_token'].'">';
+	}
+
+	function csrfCheck() {
+		if(!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
+		{
+			http_response_code(403);
+			die('Invalid request');
+		}
+	}
+
 	header('Cache-control: private');
+	header('X-Frame-Options: SAMEORIGIN');
+	header('X-Content-Type-Options: nosniff');
+	header('Referrer-Policy: strict-origin-when-cross-origin');
+	header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+	header('X-XSS-Protection: 1; mode=block');
+	header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/; object-src 'none'; base-uri 'self'");
 	
 	$current_page = isset($_GET['p']) ? $_GET['p'] : null;
 	
@@ -10,7 +34,7 @@
 	if (substr($site_url, -1)!='/')
 		$site_url.='/';
 	
-	$site_domain = $_SERVER['HTTP_HOST'];
+	$site_domain = parse_url($site_url, PHP_URL_HOST);
 	
 	include 'include/functions/version.php';
 	
@@ -48,7 +72,7 @@
 		
 		if($database->is_loggedin())
 		{
-			if(($_SESSION['fingerprint']!=md5($_SERVER['HTTP_USER_AGENT'].'x'.$_SERVER['REMOTE_ADDR'])) || ($_SESSION['password']!=securityPassword(getAccountPassword($_SESSION['id']))) || !checkStatus($_SESSION['id']))
+			if(($_SESSION['fingerprint']!=hash('sha256', $_SERVER['HTTP_USER_AGENT'].'x'.$_SERVER['REMOTE_ADDR'])) || ($_SESSION['password']!=securityPassword(getAccountPassword($_SESSION['id']))) || !checkStatus($_SESSION['id']))
 			{
 				$database->doLogout();
 				header("Location: ".$site_url);
@@ -65,10 +89,10 @@
 		
 		if($database->is_loggedin() && $web_admin>=$jsondataPrivileges['news'])
 		{
-			$delete = isset($_GET['delete']) ? $_GET['delete'] : null;
-			if(is_numeric($delete))
+			if(isset($_POST['delete_article']) && is_numeric($_POST['delete_article']))
 			{
-				$paginate->delete_article($delete);
+				csrfCheck();
+				$paginate->delete_article(intval($_POST['delete_article']));
 				header("Location: ".$site_url);
 				die();
 			}
@@ -124,7 +148,7 @@
 		$apidata = file_get_contents('include/db/api.json');
 		$apidata = json_decode($apidata,true);
 		
-		if($_GET['key']==$apidata['key'])
+		if(hash_equals($apidata['key'], $_GET['key']))
 			die('ok');
 		else
 			die();

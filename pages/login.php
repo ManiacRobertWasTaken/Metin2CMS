@@ -1,7 +1,8 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-11 col-md-12 col-sm-offset-2 col-md-offset-3">
+        <div class="col-12 col-sm-11 col-md-12 offset-sm-2 offset-md-3">
             <form role="form" method="post" action="">
+				<?php echo csrfField(); ?>
 				<div class="page-hd" style="background-image: url(<?php print $site_url; ?>images/user.png)">
 					<div class="bd-c">
 						<h2 class="pre-social"><?php print $lang['login']; ?></h2>
@@ -10,8 +11,8 @@
 				<?php
 					if(isset($_POST['username']) && isset($_POST['password']))
 					{
-						print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						  </button>';
 						switch ($login_info[0]) {
@@ -36,8 +37,8 @@
 						print '</div>';
 						
 						if($login_info[0]==2 || $login_info[0]==5)
-						print '<div class="alert alert-info alert-dismissible fade in" role="alert">
-						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						print '<div class="alert alert-info alert-dismissible fade show" role="alert">
+						  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						  </button>'.$lang['reason'].': '.$login_info[1].'</div>';
 					}

@@ -2,6 +2,7 @@
 	$received = -1;
 	if(isset($_POST['code']))
 	{
+		csrfCheck();
 		$received = 0;
 		
 		if(strlen($_POST['code'])==16 && check_redeem_codes($_POST['code']))

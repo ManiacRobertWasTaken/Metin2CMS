@@ -4,6 +4,7 @@
 	
 	if(isset($_POST['delete']) && isset($_POST['id']))
 	{
+		csrfCheck();
 		delete_redeeem_code($_POST['id']);
 		$location = '';
 		if(isset($_GET["page_no"]) && is_numeric($_GET["page_no"]) && $_GET["page_no"]>1)

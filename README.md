@@ -6,64 +6,115 @@ Metin2CMS
 [![GitHub release](https://img.shields.io/github/release/IonutPopescuRO/Metin2CMS.svg?color=%23f17e3f)]()
 [![License](https://img.shields.io/github/license/IonutPopescuRO/Metin2CMS.svg?color=%230d7ebf)]()
 
-The latest version of the CMS. This CMS is Open-Source and is accompanied by updates. To update to a newer version, enter in administrator panel.
-
+Open-source CMS for Metin2 private servers. Includes player rankings, admin panel, donation system, vote4coins, news, and multi-language support.
 
 REQUIREMENTS
 ------------
 
-The minimum requirement by Metin2CMS that your Web server supports PHP 5.6.0.
+- PHP 8.3+
+- MySQL / MariaDB
+- Apache with mod_rewrite enabled
 
-MySQL CONNECTION
+DOCKER
 ------------
 
-Communication with the database of the cms is done using the PDO extension. Settings are saved in json files. 
+```sh
+docker-compose up -d
+```
+
+The CMS runs on port 8000 by default. Environment variables in `docker-compose.yml`:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SITE_URL` | `http://localhost:8000/` | Public URL |
+| `DB_HOST` | `mariadb` | Database hostname |
+| `DB_USER` | `mt2` | Database user |
+| `DB_PASS` | `mt2` | Database password |
+| `SMTP_HOST` | `smtp.gmail.com` | SMTP server |
+| `SMTP_PORT` | `465` | SMTP port |
+| `SMTP_SECURE` | `ssl` | SMTP encryption |
+| `SMTP_USER` | | SMTP username |
+| `SMTP_PASS` | | SMTP password |
+
+MANUAL INSTALLATION
+------------
+
+Edit `config.php`:
+
+```php
+$host = "localhost";
+$user = "root";
+$password = "xxxxxx";
+
+$site_url = "https://example.com/";
+
+$SMTPAuth = true;
+$SMTPSecure = "ssl";
+$EmailHost = "smtp.gmail.com";
+$emailPort = 465;
+$email_username = "your@gmail.com";
+$email_password = "xxxxxx";
+
+$safebox_size = 1;
+```
+
+STACK
+------------
+
+- PHP 8.3 + PDO
+- Bootstrap 5.3.3
+- jQuery 3.7.1
+- PHPMailer 6.9.3
+- SQLite (settings storage)
 
 LANGUAGES
 ------------
-The platform is available in 12 languages:
+Available in 12 languages:
 
-  - [en]	English 	
-  - [ro] 	Română 	
-  - [fr] 	Français 	
-  - [pl] 	Polski 	
-  - [pt-BR] 	Português (BR) 	
-  - [es] 	Español 	
+  - [en]	English
+  - [ro] 	Romana
+  - [fr] 	Francais
+  - [pl] 	Polski
+  - [pt-BR] 	Portugues (BR)
+  - [es] 	Espanol
   - [it] 	Italiano
-  - [tr] 	Türk
-  - [hu] 	Magyar 	
+  - [tr] 	Turk
+  - [hu] 	Magyar
   - [de] 	Deutsch
-  - [el] 	Ελληνικά
-  - [ar] 	العربية
-  
-If you want to help, you can translate in your language and send us.
+  - [el] 	Ellinika
+  - [ar] 	Arabic
 
-INSTALATION
+CHANGELOG v3.0
 ------------
 
-**All you have to do now is to edit the file `config.php`.**
+**Security**
+- CSRF protection on all POST forms and handlers
+- Stored XSS fix in news (HTML sanitization with `sanitizeHtml()`)
+- XSS fixes in news titles, timestamps, image src, player search, donate redirect, captcha, ranking
+- DOM XSS fix in register.js (`.html()` replaced with `.text()`)
+- SQL injection fix in `reset_char()` (parameterized query)
+- Path traversal fixes in language install/delete and module/theme install
+- PayPal txn_id replay protection and float comparison fix
+- Session hardening (httponly, samesite, strict mode, fingerprint with SHA256, regeneration on login)
+- Timing-safe comparisons for CSRF tokens and API keys (`hash_equals()`)
+- Cookie security (httponly, samesite flags on all cookies)
+- Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, Referrer-Policy headers
+- Deny-all `.htaccess` for `include/db/` directory
+- Blocked `.git`, `.claude`, and sensitive files from web access
+- Bounds validation for admin coin grants
+- URL-encoded search input in redirect headers to prevent header injection
+- Zip Slip protection and SSL enforcement
 
-```sh
-	//Game database
-	$host = "localhost";
-	$user = "root";
-	$password = "xxxxxx";
-	
-	//Site url - add / at the end, eg: http://metin2cms.cf/mt2/
-	$site_url = "https://metin2cms.cf/mt2/";
+**Upgrades**
+- PHP 8.3+ compatibility
+- Bootstrap 4 alpha 3 → Bootstrap 5.3.3
+- jQuery 2.2.4 → jQuery 3.7.1
+- PHPMailer upgraded to 6.9.3
+- Removed PclZip (using native ZipArchive)
+- Removed Tether.js
 
-	//Mail settings
-	$SMTPAuth = true;
-	$SMTPSecure = "ssl";
-	$EmailHost = "smtp.gmail.com";
-	$emailPort = 465;
-	
-	$email_username = "metin2cms.cf@gmail.com";//gmail account
-	$email_password = "xxxxxx";//gmail password
-	
-	//Register
-	$safebox_size = 1;
-```
+**Infrastructure**
+- Docker setup for local development (Dockerfile, docker-compose.yml, entrypoint script)
 
 ### Preview
 <details><summary>CLICK ME</summary>

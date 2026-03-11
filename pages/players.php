@@ -8,6 +8,7 @@
 	
 	<div class="jumbotron jumbotron-fluid" style="padding: 1rem 2rem;">
 		<form action="" method="POST">
+			<?php echo csrfField(); ?>
 			<div class="row">
 				<div class="col-lg-9">
 					<input type="text" name="search" class="form-control" placeholder="<?php print $lang['name']; ?>" value="<?php if(isset($search)) print htmlentities($search); ?>">
@@ -29,7 +30,7 @@
 	</ul>
 	
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<th>#</th>
 				<th><?php print $lang['name']; ?></th>

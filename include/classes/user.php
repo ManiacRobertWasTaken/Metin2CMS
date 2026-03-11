@@ -7,7 +7,9 @@ class USER
 
 	private $account;
 	private $player;
+	private $common;
 	private $sqlite;
+	private $log;
 	private $conn;
 	
 	public function __construct($host, $user, $password)
@@ -73,7 +75,7 @@ class USER
 		try
 		{
 			$password = getHashPassword($password);
-			$social_id = rand(1000000, 9999999); // updated in v2.12
+			$social_id = random_int(1000000, 9999999);
 			$status = "OK";
 			
 			$stmt = $this->account->prepare("INSERT INTO account(login, password, social_id, email, create_time, status) 
@@ -129,9 +131,10 @@ class USER
 				{
 					if(check_account_column('availDt') && check_availDt($userRow['id']))
 						return array(5, getLoginLastBanReason($userRow['id']), get_availDt($userRow['id']));
+					session_regenerate_id(true);
 					$_SESSION['id'] = $userRow['id'];
 					$_SESSION['password'] = securityPassword($userRow['password']);
-					$_SESSION['fingerprint'] = md5($_SERVER['HTTP_USER_AGENT'] . 'x' . $_SERVER['REMOTE_ADDR']);
+					$_SESSION['fingerprint'] = hash('sha256', $_SERVER['HTTP_USER_AGENT'] . 'x' . $_SERVER['REMOTE_ADDR']);
 					return array(1);
 				}
 				else
@@ -179,7 +182,7 @@ class USER
 	{
 		try
 		{
-			$stmt = $this->account->prepare("SELECT login FROM account WHERE login LIKE :username LIMIT 1");
+			$stmt = $this->account->prepare("SELECT login FROM account WHERE login = :username LIMIT 1");
 			$stmt->bindparam(":username", $username);
 			$stmt->execute();
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
@@ -198,7 +201,7 @@ class USER
 	{
 		try
 		{
-			$stmt = $this->account->prepare("SELECT email FROM account WHERE email LIKE :email LIMIT 1");
+			$stmt = $this->account->prepare("SELECT email FROM account WHERE email = :email LIMIT 1");
 			$stmt->bindparam(":email", $email);
 			$stmt->execute();
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);

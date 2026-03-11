@@ -1,7 +1,7 @@
 <?php
 	if(isset($_POST['search']) && strlen($_POST['search'])>=3)
 	{
-		header("Location: ".$site_url."ranking/guilds/1/".$_POST['search']);
+		header("Location: ".$site_url."ranking/guilds/1/".urlencode($_POST['search']));
 		die();
 	} else if(isset($_POST['search']) && $_POST['search']=='')
 	{

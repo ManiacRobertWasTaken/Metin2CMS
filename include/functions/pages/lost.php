@@ -7,7 +7,8 @@
 			$message = 7;//bun
 			if(isset($_POST['password']) && isset($_POST['rpassword']))
 			{
-				if($_POST['password']==$_POST['rpassword'])
+				csrfCheck();
+				if($_POST['password']===$_POST['rpassword'])
 				{
 					if(isValidUserPassword($_POST['password']))
 					{
@@ -25,7 +26,7 @@
 		}
 	} else if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['captcha']) && isset($_SESSION['captcha_lost']['code']))
 	{
-		if($_POST['captcha'] == $_SESSION['captcha_lost']['code'])
+		if(hash_equals($_SESSION['captcha_lost']['code'], $_POST['captcha']))
 		{
 			$username = strip_tags($_POST['username']);
 			$email = $_POST['email'];

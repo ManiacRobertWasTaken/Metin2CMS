@@ -45,10 +45,10 @@ class paginate
 				?>
 			<tr>
 				<th scope="row"><?php print $number; ?></th>
-				<td><?php print $row['name']; ?></td>
-				<td><img src="<?php print $site_url; ?>images/empire/<?php print $empire=get_player_empire($row['account_id']); ?>.jpg" alt="<?php print empire_name($empire); ?>"></td>
-				<td class="level-table"><?php print $row['level']; ?></td>
-				<td class="exp-table"><?php print $row['exp']; ?></td>
+				<td><?php print e($row['name']); ?></td>
+				<td><img src="<?php print $site_url; ?>images/empire/<?php print $empire=get_player_empire($row['account_id']); ?>.jpg" alt="<?php print e(empire_name($empire)); ?>"></td>
+				<td class="level-table"><?php print intval($row['level']); ?></td>
+				<td class="exp-table"><?php print intval($row['exp']); ?></td>
 			</tr>
                 <?php
 			}
@@ -146,7 +146,7 @@ class paginate
 				else
 				{
 					if($search)
-						print "<a class='page larger' href='".$self.$i."/".$search."'>".$i."</a>&nbsp;&nbsp;";
+						print "<a class='page larger' href='".$self.$i."/".htmlspecialchars(urlencode($search), ENT_QUOTES, 'UTF-8')."'>".$i."</a>&nbsp;&nbsp;";
 					else
 						print "<a class='page larger' href='".$self.$i."'>".$i."</a>&nbsp;&nbsp;";
 				}

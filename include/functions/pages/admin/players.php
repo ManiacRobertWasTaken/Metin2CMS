@@ -1,7 +1,8 @@
 <?php
 	if(isset($_POST['search']) && strlen($_POST['search'])>=3)
 	{
-		header("Location: ".$site_url."admin/players/1/".$_POST['search']);
+		csrfCheck();
+		header("Location: ".$site_url."admin/players/1/".urlencode($_POST['search']));
 		die();
 	} else if(isset($_POST['search']) && $_POST['search']=='')
 	{
@@ -21,7 +22,8 @@
 	
 	if(isset($_POST['permanent']) && isset($_POST['accountID']))
 	{
-		banPermanent(intval($_POST['accountID']), $_POST['permanent']);
+		csrfCheck();
+		banPermanent(intval($_POST['accountID']), strip_tags($_POST['permanent']));
 		
 		$location = '';
 		if(isset($_GET["page_no"]) && is_numeric($_GET["page_no"]) && $_GET["page_no"]>1)
@@ -35,6 +37,7 @@
 	}
 	else if(isset($_POST['unban']) && isset($_POST['accountID']))
 	{
+		csrfCheck();
 		unBan(intval($_POST['accountID']));
 		
 		$location = '';
@@ -48,8 +51,9 @@
 		die();
 	} else if(isset($_POST['temporary']) && isset($_POST['accountID']) && isset($_POST['months']) && isset($_POST['days']) && isset($_POST['hours']) && isset($_POST['minutes']) && check_account_column('availDt'))
 	{
+		csrfCheck();
 		$time_availDt = strtotime("now +".intval($_POST['months'])." month +".intval($_POST['days'])." day +".intval($_POST['hours'])." hours +".intval($_POST['minutes'])." minute");
-		banTemporary(intval($_POST['accountID']), $_POST['temporary'], $time_availDt);
+		banTemporary(intval($_POST['accountID']), strip_tags($_POST['temporary']), $time_availDt);
 		
 		$location = '';
 		if(isset($_GET["page_no"]) && is_numeric($_GET["page_no"]) && $_GET["page_no"]>1)

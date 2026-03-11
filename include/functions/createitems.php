@@ -100,15 +100,15 @@
 										$_POST['attrtype6'], $_POST['attrvalue6']));
 				}
 				print '<div class="alert alert-dismissible alert-success">
-						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<button type="button" class="close" data-bs-dismiss="alert">&times;</button>
 							'.$lang['successfully_added'].'
 						</div>';
 			} else print '<div class="alert alert-dismissible alert-danger">
-							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<button type="button" class="close" data-bs-dismiss="alert">&times;</button>
 							'.$lang['no_space'].'
 						</div>';
 			} else print '<div class="alert alert-dismissible alert-danger">
-							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<button type="button" class="close" data-bs-dismiss="alert">&times;</button>
 							'.$lang['no_char'].'
 						</div>';
 	}

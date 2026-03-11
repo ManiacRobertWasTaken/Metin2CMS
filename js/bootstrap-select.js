@@ -330,7 +330,7 @@
             '</div>' : '',
           drop =
             '<div class="btn-group bootstrap-select' + multiple + inputGroup + '">' +
-              '<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"' + autofocus + '>' +
+              '<button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"' + autofocus + '>' +
                 '<span class="filter-option pull-left"></span>&nbsp;' +
               '</button>' +
               '<div class="dropdown-menu open">' +
@@ -1362,8 +1362,8 @@
 
   $(document)
       .data('keycount', 0)
-      .on('keydown', '.bootstrap-select [data-toggle=dropdown], .bootstrap-select [role=menu], .bs-searchbox input', Selectpicker.prototype.keydown)
-      .on('focusin.modal', '.bootstrap-select [data-toggle=dropdown], .bootstrap-select [role=menu], .bs-searchbox input', function(e) {
+      .on('keydown', '.bootstrap-select [data-bs-toggle=dropdown], .bootstrap-select [role=menu], .bs-searchbox input', Selectpicker.prototype.keydown)
+      .on('focusin.modal', '.bootstrap-select [data-bs-toggle=dropdown], .bootstrap-select [role=menu], .bs-searchbox input', function(e) {
         e.stopPropagation();
       });
 

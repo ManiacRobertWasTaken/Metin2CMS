@@ -6,10 +6,10 @@
 			
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="nav-item">
-					<a class="nav-link active" data-toggle="tab" href="#players" role="tab"><img src="<?php print $site_url; ?>images/players.png" alt="<?php print $lang['players']; ?>" title="<?php print $lang['players']; ?>"></a>
+					<a class="nav-link active" data-bs-toggle="tab" href="#players" role="tab"><img src="<?php print $site_url; ?>images/players.png" alt="<?php print $lang['players']; ?>" title="<?php print $lang['players']; ?>"></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="tab" href="#guilds" role="tab"><img src="<?php print $site_url; ?>images/guilds.png" alt="<?php print $lang['guilds']; ?>" title="<?php print $lang['guilds']; ?>"></a>
+					<a class="nav-link" data-bs-toggle="tab" href="#guilds" role="tab"><img src="<?php print $site_url; ?>images/guilds.png" alt="<?php print $lang['guilds']; ?>" title="<?php print $lang['guilds']; ?>"></a>
 				</li>
 			</ul>
 
@@ -39,8 +39,8 @@
 							<tr>
 								<td></td>
 								<th scope="row"><strong><?php print $i++; ?></strong></th>
-								<td><?php print $player['name']; ?></td>
-								<td><img src="<?php print $site_url; ?>images/empire/<?php print $empire=get_player_empire($player['account_id']); ?>.jpg" alt="<?php print empire_name($empire); ?>"></td>
+								<td><?php print e($player['name']); ?></td>
+								<td><img src="<?php print $site_url; ?>images/empire/<?php print $empire=get_player_empire($player['account_id']); ?>.jpg" alt="<?php print e(empire_name($empire)); ?>"></td>
 							</tr>
 							<?php }
 							} else print $offline_players;
@@ -51,7 +51,7 @@
 					<center>
 					<?php if(!$offline) { ?>
 						<a href="<?php print $site_url; ?>ranking/players" class="btn btn-primary btn-sm">Top 100 &raquo;</a>
-					<?php } else print '<span class="tag tag-danger">'.$lang['server-offline'].'</span></br><span class="tag tag-danger">'.$lang['last-update'].': '.$offline_date.'</span>'; ?>
+					<?php } else print '<span class="badge bg-danger">'.$lang['server-offline'].'</span></br><span class="badge bg-danger">'.$lang['last-update'].': '.$offline_date.'</span>'; ?>
 					</center></br>
 				</div>
 				<div class="tab-pane" id="guilds" role="tabpanel">
@@ -78,8 +78,8 @@
 							<tr>
 								<td></td>
 								<th scope="row"><strong><?php print $i++; ?></strong></th>
-								<td><?php print $guild['name']; ?></td>
-								<td><img src="<?php print $site_url; ?>images/empire/<?php print $empire=get_guild_empire($guild['master']); ?>.jpg" alt="<?php print empire_name($empire); ?>"/></td>
+								<td><?php print e($guild['name']); ?></td>
+								<td><img src="<?php print $site_url; ?>images/empire/<?php print $empire=get_guild_empire($guild['master']); ?>.jpg" alt="<?php print e(empire_name($empire)); ?>"/></td>
 							</tr>
 							<?php }
 							} else print $offline_guilds;
@@ -90,7 +90,7 @@
 					<center>
 					<?php if(!$offline) { ?>
 						<a href="<?php print $site_url; ?>ranking/guilds" class="btn btn-primary btn-sm">Top 100 &raquo;</a>
-					<?php } else print '<span class="tag tag-danger">'.$lang['server-offline'].'</span></br><span class="tag tag-danger">'.$lang['last-update'].': '.$offline_date.'</span>'; ?>
+					<?php } else print '<span class="badge bg-danger">'.$lang['server-offline'].'</span></br><span class="badge bg-danger">'.$lang['last-update'].': '.$offline_date.'</span>'; ?>
 					</center></br>
 				</div>
 			</div>

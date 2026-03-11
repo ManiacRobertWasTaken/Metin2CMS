@@ -3,10 +3,10 @@
 	<?php
 		foreach($tables as $table)
 		{
-			print '<option value="'.$site_url . 'admin/log/' . $table.'"';
+			print '<option value="'.e($site_url . 'admin/log/' . $table).'"';
 			if($current_log && $table==$current_log)
 				print ' selected';
-			print '>'.$table.'</option>';
+			print '>'.e($table).'</option>';
 		}
 	?>
 </select>
@@ -15,11 +15,11 @@
 	if($current_log) {
 ?>
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<?php 
 					foreach($columns as $column)
-						print '<th>'. $column .'</th>';
+						print '<th>'. e($column) .'</th>';
 				?>
 			</tr>
 		</thead>

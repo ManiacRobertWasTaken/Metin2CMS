@@ -5,15 +5,15 @@
 		</div>
 	</div>
 	<?php if(isset($voted_now) && isset($already_voted) && !$voted_now) { ?>
-	<div class="alert alert-danger alert-dismissible fade in" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button><?php print $lang['vote-again'].' <strong>'.$already_voted.'</strong>'; ?>
 	</div>
 
 	<?php } if(count($vote4coins)) { ?>
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<th style="width: 15%">#</th>
 				<th style="width: 30%">Site</th>
@@ -26,9 +26,9 @@
 		<?php $i=1; foreach($vote4coins as $key => $vote) { ?>
 			<tr>
 				<th scope="row"><?php print $i++; ?></th>
-				<td><?php print $vote['name']; ?></td>
-				<td><?php print $vote['value']; if($vote['type']==1) print 'MD'; else print 'JD'; ?></td>
-				<td><?php print $vote['time'].' '.$lang['hours']; ?></td>
+				<td><?php print e($vote['name']); ?></td>
+				<td><?php print e($vote['value']); if($vote['type']==1) print 'MD'; else print 'JD'; ?></td>
+				<td><?php print e($vote['time']).' '.$lang['hours']; ?></td>
 				<td><a href="<?php print $site_url.'user/vote4coins/'.$key; ?>" class="btn btn-primary btn-sm"><?php print $lang['vote']; ?></a></td>
 			</tr>
 		<?php } ?>

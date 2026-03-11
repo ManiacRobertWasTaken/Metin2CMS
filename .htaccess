@@ -1,6 +1,15 @@
 Options +FollowSymLinks
 RewriteEngine On
 
+<IfModule mod_rewrite.c>
+RewriteRule ^\.git - [F,L]
+RewriteRule ^\.claude - [F,L]
+</IfModule>
+
+<FilesMatch "\.(db|sqlite|json|log|bak|old|swp)$">
+Require all denied
+</FilesMatch>
+
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-f
 

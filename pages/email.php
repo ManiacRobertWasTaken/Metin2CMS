@@ -1,7 +1,8 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-11 col-md-12 col-sm-offset-2 col-md-offset-3">
+        <div class="col-12 col-sm-11 col-md-12 offset-sm-2 offset-md-3">
             <form role="form" method="post" action="">
+				<?php echo csrfField(); ?>
 				<div class="page-hd" style="background-image: url(<?php print $site_url; ?>images/recovery.png)">
 					<div class="bd-c">
 						<h2 class="pre-social"><?php print $lang['change-email']; ?></h2>
@@ -11,8 +12,8 @@
 					if(isset($_POST['email']) && isset($_POST['captcha']))
 					{
 						if($message==4) {
-							print '<div class="alert alert-info alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-info alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['sended-link'];
@@ -30,32 +31,32 @@
 							include 'include/functions/sendEmail.php';
 						} else if($message==5)
 						{
-							print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['incorrect-recovery'];
 							print '</div>';
 						} else if($message==3)
 						{
-							print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['incorrect-security'];
 							print '</div>';
 						} else if($message==2)
 						{
-							print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['incorrect-email'];
 							print '</div>';
 						} else if($message==1)
 						{
-							print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['already-email'];
@@ -86,7 +87,7 @@
 							<td><input class="form-control" name="email" pattern=".{7,64}" maxlength="64" placeholder="<?php print $lang['email-address']; ?>" required="" title="Maxim 64 caractere." type="email"></td>
 						</tr>
 						<tr>
-							<td><?php print '<img src='.$site_url.'include/captcha/simple.php'.$_SESSION['captcha_email']['image_src'].'>'; ?></td>
+							<td><?php print '<img src="'.htmlspecialchars($site_url.'include/captcha/simple.php'.$_SESSION['captcha_email']['image_src'], ENT_QUOTES, 'UTF-8').'">'; ?></td>
 							<td><input style="height:70px; font-size: 30px;" class="form-control" name="captcha" pattern=".{4,6}" maxlength="5" placeholder="<?php print $lang['captcha-code']; ?>" required="" title="Maxim 15 caractere." type="text"></td>
 						</tr>
 						<?php } ?>

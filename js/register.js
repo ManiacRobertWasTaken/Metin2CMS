@@ -1,12 +1,12 @@
-		$(window).load(function(){
+		$(function(){
 		function checkPasswordMatch() {
 			var password = $("#password").val();
 			var confirmPassword = $("#rpassword").val();
 
 			if (password != confirmPassword)
-				$("#checkpassword").html(no_password_r);
+				$("#checkpassword").text(no_password_r);
 			else
-				$("#checkpassword").html("");
+				$("#checkpassword").text("");
 		}
 
 		$(document).ready(function () {
@@ -18,9 +18,9 @@
 			var regex = /^[0-9a-zA-Z]*$/;
 
 			if(!regex.test(name))
-				$("#checkname").html(no_special_chars);
+				$("#checkname").text(no_special_chars);
 			else
-				$("#checkname").html("");
+				$("#checkname").text("");
 		}
 
 		$(document).ready(function () {
@@ -37,9 +37,9 @@
 				$.post(site_url + "checkusername.php", { type:type, username:name },  
 					function(result){  
 						if(result == 1)
-							$('#checkname2').html(name + ' ' + not_available);  
+							$('#checkname2').text(name + ' ' + not_available);
 						else
-							$('#checkname2').html("");  
+							$('#checkname2').text("");  
 				});
 			}
 		}
@@ -56,9 +56,9 @@
 				$.post(site_url + "checkusername.php", { type:type, email:email },  
 					function(result){  
 						if(result == 1)
-							$('#checkemail').html(email + ' ' + not_available);  
+							$('#checkemail').text(email + ' ' + not_available);
 						else
-							$('#checkemail').html("");  
+							$('#checkemail').text("");  
 				});  
 			}
 		}

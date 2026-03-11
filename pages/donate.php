@@ -14,8 +14,8 @@
 			
 							insert_donate($_SESSION['id'], $_POST['code'], $type);
 		
-							print '<div class="alert alert-success alert-dismissible fade in" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-success alert-dismissible fade show" role="alert">
+										<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>';
 							print $lang['send-donate'];
@@ -28,21 +28,22 @@
 		<div class="card">
 			<div class="card-header" role="tab" id="heading<?php print $i; ?>">
 				<h5 class="mb-0">
-			<a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php print $i; ?>" aria-expanded="true" aria-controls="collapse<?php print $i; ?>">
-				<?php print $donate['name']; ?>
+			<a data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapse<?php print $i; ?>" aria-expanded="true" aria-controls="collapse<?php print $i; ?>">
+				<?php print e($donate['name']); ?>
 			</a>
 		  </h5>
 			</div>
 
 			<div id="collapse<?php print $i; ?>" class="collapse show" role="tabpanel" aria-labelledby="heading<?php print $i; ?>">
-				<div class="card-block">
+				<div class="card-body">
 				<?php 
 					if(strtolower($donate['name'])=="paypal")
 					{
 				?>
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="hidden" name="id" value="<?php print $i; ?>">
-						<input type="hidden" name="method" value="<?php print $donate['name']; ?>">
+						<input type="hidden" name="method" value="<?php print e($donate['name']); ?>">
 						<div class="form-group row">
 							<div class="col-sm-6">
 								<select class="form-control" name="type">
@@ -58,8 +59,9 @@
 					</form>
 				<?php } else { ?>
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="hidden" name="id" value="<?php print $i; ?>">
-						<input type="hidden" name="method" value="<?php print $donate['name']; ?>">
+						<input type="hidden" name="method" value="<?php print e($donate['name']); ?>">
 						<div class="form-group row">
 							<div class="col-sm-6">
 								<select class="form-control" name="type">

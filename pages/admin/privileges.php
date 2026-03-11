@@ -1,6 +1,6 @@
 <div class="container">
     <form action="" method="post">
-		
+		<?php echo csrfField(); ?>
 	<?php
 		foreach($jsondataPrivileges as $key => $function)
 		{

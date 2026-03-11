@@ -1,4 +1,20 @@
 <?php
+	function e($val)
+	{
+		return htmlspecialchars((string)$val, ENT_QUOTES, 'UTF-8');
+	}
+
+	function sanitizeHtml($html)
+	{
+		$allowed = '<p><br><h1><h2><h3><h4><h5><h6><ul><ol><li><a><img><strong><b><em><i><u><div><span><table><tr><td><th><thead><tbody><blockquote><pre><code><hr><center><font><sub><sup>';
+		$html = strip_tags($html, $allowed);
+		$html = preg_replace('/\bon\w+\s*=/i', 'data-removed=', $html);
+		$html = preg_replace('/javascript\s*:/i', 'nojavascript:', $html);
+		$html = preg_replace('/vbscript\s*:/i', 'novbscript:', $html);
+		$html = preg_replace('/expression\s*\(/i', 'noexpression(', $html);
+		return $html;
+	}
+
 	function redirect($url)
 	{
 		global $database, $site_url;
@@ -41,7 +57,7 @@
 		$charactersLength = strlen($characters);
 		$randomString = '';
 		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
+			$randomString .= $characters[random_int(0, $charactersLength - 1)];
 		}
 		return $randomString;
 	}
@@ -124,8 +140,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['login'];
+
+		return $result ? $result['login'] : null;
 	}
 
 	function getAccountEmail($id)
@@ -136,8 +152,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['email'];
+
+		return $result ? $result['email'] : null;
 	}
 
 	function getAccountMD($id)
@@ -148,8 +164,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['coins'];
+
+		return $result ? $result['coins'] : 0;
 	}
 
 	function getAccountSocialID($id)
@@ -172,8 +188,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['password'];
+
+		return $result ? $result['password'] : null;
 	}
 
 	function getAccountJD($id)
@@ -184,8 +200,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['jcoins'];
+
+		return $result ? $result['jcoins'] : 0;
 	}
 
 	function getAccountID($id)
@@ -196,8 +212,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['account_id'];
+
+		return $result ? $result['account_id'] : null;
 	}
 
 	function getAccountPassword($id)
@@ -208,8 +224,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['password'];
+
+		return $result ? $result['password'] : null;
 	}
 
 	function topGuilds($limit=10)
@@ -339,7 +355,7 @@
 
 	function securityPassword($password)
 	{
-		return md5($password[10].$password[7].$password[3].$password[12].$password[24].$password[17].$password[26].$password[29].$password[18].$password[6]);
+		return hash('sha256', $password[10].$password[7].$password[3].$password[12].$password[24].$password[17].$password[26].$password[29].$password[18].$password[6]);
 	}
 
 	function web_admin_level()
@@ -368,7 +384,7 @@
 			$obj[$v1][$v2]=$new;
 		}
 		
-		$json_new = json_encode($contentsDecoded);
+		$json_new = json_encode($obj);
 		
 		if(file_put_contents('include/settings.json', $json_new))
 			return true;
@@ -381,7 +397,6 @@
 		
 		$stmt = $database->runQueryAccount("UPDATE account SET deletion_token=:deletion_token WHERE id=:id");
 		$stmt->execute(array(':deletion_token'=>$deletion_token, ':id'=>$id));
-		$stmt->execute();
 	}
 
 	function insert_delete_account($id)
@@ -1146,6 +1161,9 @@
 	{
 		global $database;
 
+		$coins = intval($coins);
+		if($coins <= 0) return;
+
 		$stmt = $database->runQueryAccount("UPDATE account SET coins = coins + ? WHERE id = ?");
 		$stmt->bindParam(1, $coins, PDO::PARAM_INT);
 		$stmt->bindParam(2, $account_id, PDO::PARAM_INT);
@@ -1155,6 +1173,9 @@
 	function addjCoins($account_id, $coins)
 	{
 		global $database;
+
+		$coins = intval($coins);
+		if($coins <= 0) return;
 
 		$stmt = $database->runQueryAccount("UPDATE account SET jcoins = jcoins + ? WHERE id = ?");
 		$stmt->bindParam(1, $coins, PDO::PARAM_INT);
@@ -1510,7 +1531,6 @@
 			
 			$stmt = $database->runQueryPlayer("UPDATE player SET ".$query." WHERE id=:id_player");
 			$stmt->execute($new_data);
-			$stmt->execute();
 		}
 	}
 	
@@ -1561,7 +1581,7 @@
 				$stmt = $database->runQueryAccount($fix[$column]);
 				$stmt->execute();
 
-				print '<div class="alert alert-success alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><center>'.$lang['account-new-column'].$column.'</center></div>';
+				print '<div class="alert alert-success alert-dismissible fade show" role="alert"><button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><center>'.$lang['account-new-column'].$column.'</center></div>';
 			}
 	}
 	
@@ -1590,7 +1610,12 @@
 
 		if($result['map_index']!= $mapindex || $result['x']!= $x || $result['y']!= $y || $result['exit_map_index']!= $mapindex)
 		{
-			$stmt = $database->runQueryPlayer("UPDATE player SET map_index=".$mapindex.", x=".$x.", y=".$y.", exit_x=0, exit_y=0, exit_map_index=".$mapindex.", horse_riding=0 WHERE id=".$id);
+			$stmt = $database->runQueryPlayer("UPDATE player SET map_index=?, x=?, y=?, exit_x=0, exit_y=0, exit_map_index=?, horse_riding=0 WHERE id=?");
+			$stmt->bindParam(1, $mapindex, PDO::PARAM_INT);
+			$stmt->bindParam(2, $x, PDO::PARAM_INT);
+			$stmt->bindParam(3, $y, PDO::PARAM_INT);
+			$stmt->bindParam(4, $mapindex, PDO::PARAM_INT);
+			$stmt->bindParam(5, $id, PDO::PARAM_INT);
 			$stmt->execute();	
 		}
 	}
@@ -1799,7 +1824,7 @@
 	{
 		global $database;
 		
-		$stmt = $database->runQueryPlayer("SELECT name FROM player WHERE name LIKE :name LIMIT 1");
+		$stmt = $database->runQueryPlayer("SELECT name FROM player WHERE name = :name LIMIT 1");
 		$stmt->bindparam(":name", $name);
 		$stmt->execute();
 		$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
@@ -1892,7 +1917,7 @@
 		$charactersLength = strlen($characters);
 		$randomString = '';
 		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
+			$randomString .= $characters[random_int(0, $charactersLength - 1)];
 		}
 		return $randomString;
 	}
@@ -1988,6 +2013,8 @@
 			curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
 			curl_setopt($ch, CURLOPT_TIMEOUT, $time_out);
 			curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 			$result = curl_exec($ch);
 			curl_close($ch);
 		}
@@ -2011,34 +2038,24 @@
 		$file = 'update.zip';
 		$path = pathinfo(realpath($file), PATHINFO_DIRNAME);
 		
-		if(class_exists('ZipArchive'))
-		{
-			$zip = new ZipArchive;
-			$res = $zip->open($file);
-			if($res === TRUE) {
-				$zip->extractTo($path);
-				$zip->close();
-				
-				if(file_exists($file)) {
-					unlink($file);
+		$zip = new ZipArchive;
+		$res = $zip->open($file);
+		if($res === TRUE) {
+			for($i = 0; $i < $zip->numFiles; $i++) {
+				$name = $zip->getNameIndex($i);
+				$dest = realpath($path) . DIRECTORY_SEPARATOR . $name;
+				if(strpos($dest, realpath($path)) !== 0) {
+					$zip->close();
+					@unlink($file);
+					return array(0);
 				}
-				
-				return array(1);
-			} else array(0);
-		}
-		else {
-			require_once('include/classes/pclzip.lib.php');
-			$archive = new PclZip($file);
-			
-			if ($archive->extract($path) == 0)
-				array(0, '<div class="alert alert-danger" role="alert">Error: '.$archive->errorInfo(true).'</div>');
-			else {
-				if(file_exists($file)) {
-					unlink($file);
-				}
-				
-				return array(1);
 			}
+			$zip->extractTo($path);
+			$zip->close();
+			if(file_exists($file)) {
+				unlink($file);
+			}
+			return array(1);
 		}
 		return array(0);
 	}

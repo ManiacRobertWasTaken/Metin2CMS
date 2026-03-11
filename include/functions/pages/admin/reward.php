@@ -1,6 +1,7 @@
 <?php
 	if(isset($_POST['add']))
 	{
+		csrfCheck();
 		if(isset($_POST['account']))
 		{
 			if($_POST['account']==1)
@@ -16,6 +17,7 @@
 			} else $added = 2;
 		}
 	} else if(isset($_POST['add2'])){
+		csrfCheck();
 		$online_players = getOnlinePlayers_minute(10);
 		$added = 0;
 

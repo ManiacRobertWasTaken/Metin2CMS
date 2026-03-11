@@ -20,7 +20,7 @@
 		$language_code = $json_languages['settings']['default'];
 	
 	$_SESSION['lang'] = $language_code;
-	setcookie('lang', $language_code, time() + (3600 * 24 * 30));
+	setcookie('lang', $language_code, ['expires' => time() + (3600 * 24 * 30), 'path' => '/', 'httponly' => true, 'samesite' => 'Lax']);
 	
 	include 'include/languages/'.$language_code.'.php';
 

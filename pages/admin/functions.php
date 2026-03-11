@@ -1,6 +1,6 @@
 <div class="container">
     <form action="" method="post">
-		
+		<?php echo csrfField(); ?>
 	<?php
 	foreach($jsondataFunctions as $key => $function)
 		if(($key=='offline-shops' && check_table_in_player('offline_shop_npc')) || ($key!='offline-shops' && $key!='active-referrals'))

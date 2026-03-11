@@ -8,6 +8,7 @@
 				<div class="col-md-1"></div>
 				<div class="col-md-10">
 					<form class="form" role="form" method="post" action="<?php print $site_url; ?>users/login" accept-charset="UTF-8" id="login-nav">
+						<?php echo csrfField(); ?>
 						<div class="form-group">
 							<input type="text" name="username" pattern=".{5,64}" maxlength="64" class="form-control" placeholder="<?php print $lang['user-name-or-email']; ?>" autocomplete="off" <?php if($offline) print 'disabled'; else print 'required'; ?>>
 						</div>
@@ -34,7 +35,7 @@
 						if($count_donations)
 						{
 				?>	
-				<a href="<?php print $site_url; ?>admin/donatelist" class="list-group-item list-group-item-action"><?php print $lang['donatelist']; ?> <span class="tag tag-info tag-pill float-xs-right"><?php print $count_donations.' '.$lang['new-donations']; ?> </span></a>
+				<a href="<?php print $site_url; ?>admin/donatelist" class="list-group-item list-group-item-action"><?php print $lang['donatelist']; ?> <span class="badge bg-info rounded-pill float-end"><?php print $count_donations.' '.$lang['new-donations']; ?> </span></a>
 				<?php
 						}
 					}

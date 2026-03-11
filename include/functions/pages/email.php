@@ -13,7 +13,8 @@
 		}
 	} else if(isset($_POST['email']) && isset($_POST['captcha']) && isset($_SESSION['captcha_email']['code']))
 	{
-		if($_POST['captcha'] == $_SESSION['captcha_email']['code'])
+		csrfCheck();
+		if(hash_equals($_SESSION['captcha_email']['code'], $_POST['captcha']))
 		{
 			$email = $_POST['email'];
 

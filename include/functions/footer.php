@@ -18,10 +18,12 @@
 	{
 ?>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$("body").tooltip({ selector: '[data-toggle=tooltip]' });
+		document.addEventListener('DOMContentLoaded', function() {
+			document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+				new bootstrap.Tooltip(el);
+			});
 		});
-		
+
 		$(document).on("click", ".open-accountID", function () {
 			 var account_id = $(this).data('id');
 			 $(".modal-body #accountID").val( account_id );

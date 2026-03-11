@@ -3,8 +3,8 @@
 		if(isset($_POST['add']))
 		{
 	?>
-	<div class="alert alert-info alert-dismissible fade in" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<div class="alert alert-info alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
 		<span><?php print $lang['code-created']; ?></span>
@@ -12,16 +12,15 @@
 		<form>
 			<div class="input-group">
 				<input type="text" class="form-control" value="<?php print addRedeemCode($_POST['type'], $_POST['value']); ?>" id="share" readonly="readonly">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" id="copyButton" data-placement="button">
-						<i class="fa fa-clipboard" aria-hidden="true"></i>
-					</button>
-				</span>
+				<button class="btn btn-secondary" type="button" id="copyButton">
+					<i class="fa fa-clipboard" aria-hidden="true"></i>
+				</button>
 			</div>
 		</form>
 	</div>
 	<?php } ?>
 	<form action="" method="post">
+		<?php echo csrfField(); ?>
 		<div class="row">
 			<div class="form-group col-md-6">
 				<select class="form-control" name="type" id="inputType">
@@ -40,7 +39,7 @@
 	</form>
 	<hr>
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<th>#</th>
 				<th><?php print $lang['code']; ?></th>

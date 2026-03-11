@@ -1,15 +1,16 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-11 col-md-12 col-sm-offset-2 col-md-offset-3">
+        <div class="col-12 col-sm-11 col-md-12 offset-sm-2 offset-md-3">
 			<?php if(isset($triedName)) { ?>
-				<div class="alert alert-danger alert-dismissible fade in" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<div class="alert alert-danger alert-dismissible fade show" role="alert">
+					<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<span><?php print $triedName.' '.$lang['not-available']; ?></span>
+					<span><?php print e($triedName).' '.$lang['not-available']; ?></span>
 				</div>
 			<?php } ?>
             <form role="form" method="post" action="">
+				<?php echo csrfField(); ?>
 				<table class="table table-hover" style="background-color: white;">
 					<tbody>
 						<tr>
@@ -51,8 +52,8 @@
 						{
 					?>
 						<tr>
-							<td><?php print $column['name']; ?>:</td>
-							<td><input class="form-control" style="color: black!important;" name="<?php print $column['name']; ?>" id="<?php print $column['name']; ?>" value="<?php print $actual_data[$column['name']]; ?>" type="text"></td>
+							<td><?php print e($column['name']); ?>:</td>
+							<td><input class="form-control" style="color: black!important;" name="<?php print e($column['name']); ?>" id="<?php print e($column['name']); ?>" value="<?php print e($actual_data[$column['name']]); ?>" type="text"></td>
 						</tr>
 					<?php
 						}

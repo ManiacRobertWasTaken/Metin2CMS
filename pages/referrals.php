@@ -10,11 +10,9 @@
 		<form>
 			<div class="input-group">
 				<input type="text" class="form-control" value="<?php print $link; ?>" id="share" readonly="readonly">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" id="copyButton" data-placement="button">
-						<i class="fa fa-clipboard" aria-hidden="true"></i>
-					</button>
-				</span>
+				<button class="btn btn-secondary" type="button" id="copyButton">
+					<i class="fa fa-clipboard" aria-hidden="true"></i>
+				</button>
 			</div>
 		</form>
 		<?php if(is_array($referrals_list) && count($referrals_list)) { ?>
@@ -24,8 +22,8 @@
 				<h3><?php print $lang['referral-invited']; ?></h3>
 				<hr>
 				<?php if($received) { ?>
-				<div class="alert alert-success alert-dismissible fade in" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+					<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					<?php
@@ -38,7 +36,7 @@
 				</div>
 				<?php } ?>
 				<table class="table table-hover">
-					<thead class="thead-inverse">
+					<thead class="table-dark">
 							<tr>
 								<th>#</th>
 								<th><?php print $lang['char-name']; ?></th>
@@ -68,7 +66,7 @@
 									if($getChars['claimed']==1) echo '<td><button class="btn btn-primary btn-sm disabled">'.$lang['collected'].'</button></td>';
 									else {
 									if($jsondataReferrals['hours']<=$hours && $jsondataReferrals['level']<=$getCharsINFO['level'])
-										echo '<td><form action="" method="post"><input type="hidden" name="id" value="'.$getChars['registered'].'"><input id="submitBtn" type="submit" name="login" value="'.$lang['collect'].'" class="btn btn-primary btn-sm"/></td></form>';
+										echo '<td><form action="" method="post">'.csrfField().'<input type="hidden" name="id" value="'.$getChars['registered'].'"><input id="submitBtn" type="submit" name="login" value="'.$lang['collect'].'" class="btn btn-primary btn-sm"/></td></form>';
 									else echo '<td><button class="btn btn-primary btn-sm disabled">'.$lang['not_yet'].'</button></td>';}
 									echo'</tr>';
 									  $x++;
@@ -80,8 +78,8 @@
 				</table>
 			</div>
 		</div>
-		<div class="alert alert-info alert-dismissible fade in" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<div class="alert alert-info alert-dismissible fade show" role="alert">
+			<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<span><?php print $lang['referral-min-hours'].': '.$jsondataReferrals['hours']; ?></span>

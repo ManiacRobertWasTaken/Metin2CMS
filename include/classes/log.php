@@ -42,7 +42,7 @@ class paginate
 			<tr>
 				<?php
 					foreach($columns as $column)
-						print '<td style="word-wrap:break-word; word-break:break-all;">'. $row[$column] .'</td>';
+						print '<td style="word-wrap:break-word; word-break:break-all;">'. e($row[$column]) .'</td>';
 				?>
 			</tr>
                 <?php

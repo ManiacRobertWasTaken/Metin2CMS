@@ -1,5 +1,6 @@
 <div class="container">
     <form action="" method="post">
+		<?php echo csrfField(); ?>
 		<div class="form-group row">
 			<div class="col-sm-4">
 				<input type="text" class="form-control" name="download_server" placeholder="Server">
@@ -18,7 +19,7 @@
 	
 	<?php if(count($jsondataDownload)) { ?>
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<th style="width: 15%">#</th>
 				<th style="width: 70%">Server</th>
@@ -29,8 +30,8 @@
 		<?php $i=1; foreach($jsondataDownload as $key => $download) { ?>
 			<tr>
 				<th scope="row"><?php print $i++; ?></th>
-				<td><?php print $download['name']; ?></td>
-				<td><a href="<?php print $site_url.'admin/download/'.$key; ?>" class="btn btn-primary btn-sm"><?php print $lang['delete']; ?></a></td>
+				<td><?php print e($download['name']); ?></td>
+				<td><form action="" method="post" style="display:inline"><?php echo csrfField(); ?><input type="hidden" name="del" value="<?php print intval($key); ?>"><button type="submit" name="submit_delete" class="btn btn-primary btn-sm"><?php print $lang['delete']; ?></button></form></td>
 			</tr>
 		<?php } ?>
 		</tbody>

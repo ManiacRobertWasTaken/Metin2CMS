@@ -41,10 +41,10 @@ class paginate
 				?>
 			<tr>
 				<th scope="row"><?php print $number; ?></th>
-				<td><?php print $row['code']; ?></td>
+				<td><?php print e($row['code']); ?></td>
 				<td><?php if($row['type']==1) print $md; else if($row['type']==2) print $jd; else print $item; ?></td>
 				<td><?php print $row['value']; ?></td>
-				<td><form action="" method="POST"><input type="hidden" name="id" value="<?php print $row['id']; ?>"><button type="submit" name="delete" class="btn btn-danger btn-sm"><?php print $delete; ?></button></form></td>
+				<td><form action="" method="POST"><?php echo csrfField(); ?><input type="hidden" name="id" value="<?php print $row['id']; ?>"><button type="submit" name="delete" class="btn btn-danger btn-sm"><?php print $delete; ?></button></form></td>
 			</tr>
                 <?php
 			}

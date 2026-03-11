@@ -1,10 +1,10 @@
 <div class="container">
 	<ul class="nav nav-tabs" role="tablist">
 		<li class="nav-item">
-			<a class="nav-link active" data-toggle="tab" href="#settings" role="tab"><?php print $lang['general-settings']; ?></a>
+			<a class="nav-link active" data-bs-toggle="tab" href="#settings" role="tab"><?php print $lang['general-settings']; ?></a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" data-toggle="tab" href="#install" role="tab"><?php print $lang['install'].' / '.$lang['uninstall']; ?></a>
+			<a class="nav-link" data-bs-toggle="tab" href="#install" role="tab"><?php print $lang['install'].' / '.$lang['uninstall']; ?></a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="https://ionut.work/contact" target="_blank"><?php print $lang['send-translation']; ?></a>
@@ -15,6 +15,7 @@
 		<div class="tab-pane active" id="settings" role="tabpanel">
 			</br>
 			<form action="" method="post">
+				<?php echo csrfField(); ?>
 				<div class="form-group row">
 					<label for="active-registrations" class="col-sm-8 col-form-label"><?php print $lang['default-language']; ?></label>
 					<div class="col-sm-4">
@@ -42,7 +43,7 @@
 			
 			</br>
 			<table class="table table-hover">
-				<thead class="thead-inverse">
+				<thead class="table-dark">
 					<tr>
 						<th style="width: 15%">#</th>
 						<th style="width: 70%"><?php print $lang['name']; ?></th>
@@ -61,6 +62,7 @@
 						<?php } else { ?>
 							<td>
 								<form action="" method="post">
+									<?php echo csrfField(); ?>
 									<input type="hidden" name="delete" value="<?php print $key; ?>">
 									<button type="submit" name="submit" class="btn btn-primary btn-sm"><?php print $lang['delete']; ?></button>
 								</form>
@@ -76,6 +78,7 @@
 						<td><?php print $value['name']; ?></td>
 							<td>
 								<form action="" method="post">
+									<?php echo csrfField(); ?>
 									<input type="hidden" name="install" value="<?php print $value['code']; ?>">
 									<input type="hidden" name="name" value="<?php print $value['name']; ?>">
 									<button type="submit" name="submit" class="btn btn-primary btn-sm"><?php print $lang['install']; ?></button>

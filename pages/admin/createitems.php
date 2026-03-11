@@ -3,6 +3,7 @@
 ?>
 <div class="container">
     <form action="" method="post" class="form-horizontal">
+		<?php echo csrfField(); ?>
 
         <div class="form-group">
             <label class="control-label" for="name">
@@ -46,7 +47,7 @@
         <?php } ?>
         <?php if(check_item_column( "applytype0")) { ?>
         <div class="form-group">
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#sash" aria-expanded="false" aria-controls="sash">
+            <a class="btn btn-primary" role="button" data-bs-toggle="collapse" href="#sash" aria-expanded="false" aria-controls="sash">
                 <?php print $lang[ 'more_bonuses']; ?>
             </a>
             <div class="collapse" id="sash">
@@ -81,7 +82,7 @@
 
         <?php } ?>
         <div class="form-group">
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#sockets" aria-expanded="false" aria-controls="sockets">
+            <a class="btn btn-primary" role="button" data-bs-toggle="collapse" href="#sockets" aria-expanded="false" aria-controls="sockets">
                 <?php print $lang[ 'stones']; ?>
             </a>
             <div class="collapse" id="sockets">
@@ -103,7 +104,7 @@
             </div>
         </div>
         <div class="form-group">
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#time" aria-expanded="false" aria-controls="time">
+            <a class="btn btn-primary" role="button" data-bs-toggle="collapse" href="#time" aria-expanded="false" aria-controls="time">
                 <?php print $lang[ 'item_time']; ?> (Min.)
             </a>
             <div class="collapse" id="time">
@@ -118,7 +119,7 @@
             </div>
         </div>
         <div class="form-group">
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#time2" aria-expanded="false" aria-controls="time2">
+            <a class="btn btn-primary" role="button" data-bs-toggle="collapse" href="#time2" aria-expanded="false" aria-controls="time2">
                 <?php print $lang[ 'item_time']. ' - '.$lang[ 'costumes']; ?> (Min.)
             </a>
             <div class="collapse" id="time2">

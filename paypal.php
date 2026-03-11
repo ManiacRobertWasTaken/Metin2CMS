@@ -5,8 +5,8 @@
 	{
 		$req = 'cmd=_notify-validate';
 		foreach ($_POST as $key => $value) {
-			$value = urlencode(stripslashes($value));
-			$value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i','${1}%0D%0A${3}',$value);// IPN fix
+			$value = urlencode($value);
+			$value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i','${1}%0D%0A${3}',$value);
 			$req .= "&$key=$value";
 		}
 
@@ -20,9 +20,15 @@
 		$data['payer_email'] 		= $_POST['payer_email'];
 		$data['custom'] 			= $_POST['custom'];
 
-		$curl_result=$curl_err='';
+		$txnFile = 'include/db/paypal_txns.json';
+		$processedTxns = array();
+		if(file_exists($txnFile))
+			$processedTxns = json_decode(file_get_contents($txnFile), true) ?: array();
+
+		if(in_array($data['txn_id'], $processedTxns))
+			die();
+
 		$ch = curl_init();
-		//curl_setopt($ch, CURLOPT_URL,'https://www.sandbox.paypal.com/cgi-bin/webscr'); - DevMode
 		curl_setopt($ch, CURLOPT_URL,'https://www.paypal.com/cgi-bin/webscr');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -35,22 +41,28 @@
 		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
 		$curl_result = curl_exec($ch);
-		$curl_err = curl_error($ch);
 		curl_close($ch);
-				
+
 		if (strpos($curl_result, "VERIFIED")!==false && strtolower($data['receiver_email']) == strtolower($paypal_email)) {
-			
+
 			$jsondataDonate = file_get_contents('include/db/donate.json');
 			$jsondataDonate = json_decode($jsondataDonate, true);
-			
+
+			$awarded = false;
 			foreach($jsondataDonate as $key => $donate)
 				if(strtolower($donate['name'])=="paypal")
 					foreach($donate['list'] as $list)
 					{
 						$type = $donate['name'].' ['.$list['price'].' - '.$list['md'].' MD]';
-						if($type==$data['item_name'] && $list['price']==$data['payment_amount'] && $data['payment_currency']==$list['currency'])
+						if($type==$data['item_name'] && abs(floatval($list['price']) - floatval($data['payment_amount'])) < 0.01 && $data['payment_currency']==$list['currency'])
+						{
 							addCoins($data['custom'], $list['md']);
+							$awarded = true;
+						}
 					}
+
+			$processedTxns[] = $data['txn_id'];
+			file_put_contents($txnFile, json_encode($processedTxns));
 		}
 	}
 ?>

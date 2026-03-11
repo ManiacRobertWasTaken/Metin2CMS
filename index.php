@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8" />
 
-    <title><?php print $site_title.' - '.$title; if($offline) print ' - '.$lang['server-offline']; ?></title>
+    <title><?php print e($site_title).' - '.e($title); if($offline) print ' - '.$lang['server-offline']; ?></title>
 
     <link rel="stylesheet" href="<?php print $site_url; ?>css/eason-displaycaps-min.css">
     <link rel="stylesheet" href="<?php print $site_url; ?>css/bootstrap.min.css">
@@ -142,10 +142,9 @@
         </div>
     </div>
 
-	<script type="text/javascript" src="<?php print $site_url; ?>js/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="<?php print $site_url; ?>js/jquery.min.js"></script>
+	<script src="<?php print $site_url; ?>js/bootstrap.bundle.min.js"></script>
 	<?php include 'include/functions/footer.php'; ?>
-	<script src="<?php print $site_url; ?>js/tether.min.js"></script>
-    <script src="<?php print $site_url; ?>js/bootstrap.min.js"></script>
 </body>
 
 </html>

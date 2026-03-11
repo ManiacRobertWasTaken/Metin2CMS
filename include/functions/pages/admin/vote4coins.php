@@ -7,12 +7,14 @@
 	
 	if(isset($_POST['submit']))
 	{
+		csrfCheck();
 		$new_link = array();
-		$new_link['name'] = $_POST['site_name'];
-		$new_link['link'] = $_POST['site_link'];
-		$new_link['type'] = $_POST['type'];
-		$new_link['value'] = $_POST['coins'];
-		$new_link['time'] = $_POST['time'];
+		$new_link['name'] = strip_tags($_POST['site_name']);
+		$raw = $_POST['site_link'];
+		$new_link['link'] = (filter_var($raw, FILTER_VALIDATE_URL) && preg_match('/^https?:\/\//i', $raw)) ? $raw : '';
+		$new_link['type'] = intval($_POST['type']);
+		$new_link['value'] = intval($_POST['coins']);
+		$new_link['time'] = intval($_POST['time']);
 		
 		array_push($jsondataVote4Coins, $new_link);
 		
@@ -21,15 +23,20 @@
 		
 		header("Location: ".$site_url.'admin/vote4coins');
 		die();
-	} else if(isset($_GET['del']))
+	} else if(isset($_POST['submit_delete']))
 	{
-		unset($jsondataVote4Coins[$_GET['del']]);
-		
-		$json_new = json_encode($jsondataVote4Coins);
-		file_put_contents('include/db/vote4coins.json', $json_new);
-		
-		delete_vote4coins($_GET['del']);
-		
+		csrfCheck();
+		$delKey = $_POST['del'];
+		if(isset($jsondataVote4Coins[$delKey]))
+		{
+			unset($jsondataVote4Coins[$delKey]);
+
+			$json_new = json_encode($jsondataVote4Coins);
+			file_put_contents('include/db/vote4coins.json', $json_new);
+
+			delete_vote4coins($delKey);
+		}
+
 		header("Location: ".$site_url.'admin/vote4coins');
 		die();
 	}

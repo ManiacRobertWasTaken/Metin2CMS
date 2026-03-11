@@ -10,8 +10,9 @@
 	
 	if(isset($_POST['submit']))
 	{
+		csrfCheck();
 		$new_link = array();
-		$new_link['name'] = $_POST['donation_method'];
+		$new_link['name'] = strip_tags($_POST['donation_method']);
 		$new_link['list'] = array();
 		
 		array_push($jsondataDonate, $new_link);
@@ -21,18 +22,23 @@
 		
 		header("Location: ".$site_url.'admin/donate');
 		die();
-	} else if(isset($_GET['del']))
+	} else if(isset($_POST['submit_delete_method']) && is_numeric($_POST['del']))
 	{
-		unset($jsondataDonate[$_GET['del']]);
-		
+		csrfCheck();
+		unset($jsondataDonate[intval($_POST['del'])]);
+
 		$json_new = json_encode($jsondataDonate);
 		file_put_contents('include/db/donate.json', $json_new);
-		
+
 		header("Location: ".$site_url.'admin/donate');
 		die();
 	}  else if(isset($_POST['submit_delete_price']))
 	{
-		unset($jsondataDonate[$_POST['id']]['list'][$_POST['price_id']]);
+		csrfCheck();
+		$dId = intval($_POST['id']);
+		$pId = intval($_POST['price_id']);
+		if(isset($jsondataDonate[$dId]['list'][$pId]))
+			unset($jsondataDonate[$dId]['list'][$pId]);
 		
 		$json_new = json_encode($jsondataDonate);
 		file_put_contents('include/db/donate.json', $json_new);
@@ -41,12 +47,14 @@
 		die();
 	} else if(isset($_POST['submit_price']))
 	{
+		csrfCheck();
 		$new_price = array();
-		$new_price['price'] = $_POST['price'];
-		$new_price['md'] = $_POST['md'];
-		$new_price['currency'] = $_POST['currency'];
+		$new_price['price'] = intval($_POST['price']);
+		$new_price['md'] = intval($_POST['md']);
+		$new_price['currency'] = intval($_POST['currency']);
 
-		array_push($jsondataDonate[$_POST['id']]['list'], $new_price);
+		if(isset($jsondataDonate[intval($_POST['id'])]))
+			array_push($jsondataDonate[intval($_POST['id'])]['list'], $new_price);
 		
 		$json_new = json_encode($jsondataDonate);
 		file_put_contents('include/db/donate.json', $json_new);

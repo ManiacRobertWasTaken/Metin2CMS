@@ -6,8 +6,8 @@
 	</div>
 	<div class="padding-container">
 		<?php if($received>=0) { ?>
-		<div class="alert alert-<?php if(!$received || $received==4) print 'danger'; else print 'success'; ?> alert-dismissible fade in" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<div class="alert alert-<?php if(!$received || $received==4) print 'danger'; else print 'success'; ?> alert-dismissible fade show" role="alert">
+			<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 			<?php
@@ -29,13 +29,12 @@
 		<?php } ?>
 			
 		<form action="" method="POST">
+			<?php echo csrfField(); ?>
 			<div class="input-group">
 				<input type="text" class="form-control form-control-lg" value="" name="code" required>
-				<span class="input-group-btn">
-					<button class="btn btn-primary btn-lg" type="submit" data-placement="button">
-						<i class="fa fa-check" aria-hidden="true"></i> <?php print $lang['redeem-my-code']; ?>
-					</button>
-				</span>
+				<button class="btn btn-primary btn-lg" type="submit">
+					<i class="fa fa-check" aria-hidden="true"></i> <?php print $lang['redeem-my-code']; ?>
+				</button>
 			</div>
 		</form>
 	</div>

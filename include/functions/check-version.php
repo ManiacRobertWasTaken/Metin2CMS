@@ -10,7 +10,7 @@
 
 	if($available_update)
 	{
-		$failed = '<div class="alert alert-danger" role="alert">'.$lang['not-updated'].': <a href="https://new.metin2cms.cf/v2/'.$lastVersion.'.zip" class="tag tag-success">'.$lang['update'].'</a></div>';
+		$failed = '<div class="alert alert-danger" role="alert">'.$lang['not-updated'].': <a href="https://new.metin2cms.cf/v2/'.$lastVersion.'.zip" class="badge bg-success">'.$lang['update'].'</a></div>';
 
 		if(isset($_POST['update']))
 		{
@@ -39,6 +39,7 @@
 		<p><?php print $lang['update-info']; ?></p>
 		
 		<form action="" method="post">
+			<?php echo csrfField(); ?>
 			<input type="submit" name="update" class="btn btn-success btn-lg btn-block" value="<?php print $lang['update']; ?>" />
 		</form>
 		
@@ -59,9 +60,9 @@
 		} else $helloworld = $apidata['ad']['content'];
 
 		if($helloworld)
-			print '<div class="alert alert-info alert-dismissible fade in" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$helloworld.'</div>';
+			print '<div class="alert alert-info alert-dismissible fade show" role="alert"><button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$helloworld.'</div>';
 		else
-			print '<div class="alert alert-danger fade in" role="alert">'.$lang['https-get-contents-error'].' <a href="https://piwik.org/faq/troubleshooting/faq_177/" target="_blank">Piwik</a> | <a href="https://stackoverflow.com/search?q=Unable+to+find+the+wrapper+%22https%22" target="_blank">StackOverflow</a></div>';
+			print '<div class="alert alert-danger fade show" role="alert">'.$lang['https-get-contents-error'].' <a href="https://piwik.org/faq/troubleshooting/faq_177/" target="_blank">Piwik</a> | <a href="https://stackoverflow.com/search?q=Unable+to+find+the+wrapper+%22https%22" target="_blank">StackOverflow</a></div>';
 	}
 ?>
 

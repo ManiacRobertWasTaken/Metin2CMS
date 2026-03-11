@@ -1,7 +1,8 @@
 <div class="container">
     <div class="row">
-        <div class="col-xs-12 col-sm-11 col-md-12 col-sm-offset-2 col-md-offset-3">
+        <div class="col-12 col-sm-11 col-md-12 offset-sm-2 offset-md-3">
             <form role="form" method="post" action="">
+				<?php echo csrfField(); ?>
 				<div class="page-hd" style="background-image: url(<?php print $site_url; ?>images/recovery.png)">
 					<div class="bd-c">
 						<h2 class="pre-social"><?php if($message==7) print $lang['change-password']; else print $lang['account-recovery']; ?></h2>
@@ -12,8 +13,8 @@
 					{
 						if($message==6)
 						{
-							print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['incorrect-recovery'];
@@ -22,8 +23,8 @@
 						else if(isset($_POST['password']) && isset($_POST['rpassword']) && $message==9)
 						{
 							$message = 7;
-							print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['no-password-r'];
@@ -32,8 +33,8 @@
 						else if(isset($_POST['password']) && isset($_POST['rpassword']) && $message==8)
 						{
 							$message = 11;
-							print '<div class="alert alert-success alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-success alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['success-change-password'];
@@ -42,8 +43,8 @@
 						else if(isset($_POST['password']) && isset($_POST['rpassword']) && $message==10)
 						{
 							$message = 7;
-							print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['incorrect-password'];
@@ -53,16 +54,16 @@
 					{
 						if($message==5)
 						{
-							print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['incorrect-security'];
 							print '</div>';
 						}
 						else {
-							print '<div class="alert alert-info alert-dismissible fade in" role="alert">
-							  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-info alert-dismissible fade show" role="alert">
+							  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							  </button>';
 							print $lang['email-recovery'];
@@ -110,7 +111,7 @@
 							<td><input class="form-control" name="email" pattern=".{7,64}" maxlength="64" placeholder="<?php print $lang['email-address']; ?>" required="" title="Maxim 64 caractere." type="email"></td>
 						</tr>
 						<tr>
-							<td><?php print '<img src='.$site_url.'include/captcha/simple.php'.$_SESSION['captcha_lost']['image_src'].'>'; ?></td>
+							<td><?php print '<img src="'.htmlspecialchars($site_url.'include/captcha/simple.php'.$_SESSION['captcha_lost']['image_src'], ENT_QUOTES, 'UTF-8').'">'; ?></td>
 							<td><input style="height:70px; font-size: 30px;" class="form-control" name="captcha" pattern=".{4,6}" maxlength="5" placeholder="<?php print $lang['captcha-code']; ?>" required="" title="Maxim 15 caractere." type="text"></td>
 						</tr>
 						<?php } ?>

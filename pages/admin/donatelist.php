@@ -2,7 +2,7 @@
 	
 	<?php if(count($jsondataDonate)) { ?>
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<th><?php print $lang['name']; ?></th>
 				<th><?php print $lang['code']; ?></th>
@@ -17,9 +17,10 @@
 			<tr>
 				<td><?php print getAccountName($donate['account_id']); ?></td>
 				<td><?php print htmlentities($donate['code']); ?></td>
-				<td><?php print $donate['type']; ?></td>
+				<td><?php print e($donate['type']); ?></td>
 				<td>
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="hidden" value="<?php print $md; ?>" name="md">
 						<input type="hidden" value="<?php print $donate['account_id']; ?>" name="account">
 						<input type="hidden" value="<?php print $donate['id']; ?>" name="id">

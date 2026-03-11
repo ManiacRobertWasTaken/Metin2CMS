@@ -1,6 +1,7 @@
 <div class="container">
 	<div class="jumbotron jumbotron-fluid" style="padding: 1rem 2rem;">
 		<form action="" method="POST">
+			<?php echo csrfField(); ?>
 			<div class="row">
 				<div class="col-lg-9">
 					<input type="text" name="search" class="form-control" placeholder="<?php print $lang['name']; ?> / IP" value="<?php if(isset($search)) print $search; ?>">
@@ -13,7 +14,7 @@
 	</div>
 	
 	<table class="table table-hover">
-		<thead class="thead-inverse">
+		<thead class="table-dark">
 			<tr>
 				<th>#</th>
 				<th><?php print $lang['name']; ?></th>
@@ -60,11 +61,11 @@
             <div class="modal-body">
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link active" data-toggle="tab" href="#permanent" role="tab"><?php print $lang['permanent-ban']; ?></a>
+						<a class="nav-link active" data-bs-toggle="tab" href="#permanent" role="tab"><?php print $lang['permanent-ban']; ?></a>
 					</li>
 					<?php if($availDt = check_account_column('availDt')) { ?>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#availDt" role="tab"><?php print $lang['temporary-ban']; ?></a>
+						<a class="nav-link" data-bs-toggle="tab" href="#availDt" role="tab"><?php print $lang['temporary-ban']; ?></a>
 					</li>
 					<?php } ?>
 				</ul>
@@ -74,6 +75,7 @@
 					<div class="tab-pane active" id="permanent" role="tabpanel">
 						</br>
 						<form method="POST" action="">
+							<?php echo csrfField(); ?>
 							<input type="hidden" name="accountID" id="accountID" value=""/>
 							<div class="form-group">
 								<label for="reason"><?php print $lang['reason'].' - '.$lang['permanent-ban']; ?></label>
@@ -86,6 +88,7 @@
 					<div class="tab-pane" id="availDt" role="tabpanel">
 						</br>
 						<form method="POST" action="">
+							<?php echo csrfField(); ?>
 							<input type="hidden" name="accountID" id="accountID" value=""/>
 							<div class="form-group">
 								<label for="reason"><?php print $lang['time']; ?></label>
@@ -120,7 +123,7 @@
 				</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php print $lang['close']; ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php print $lang['close']; ?></button>
             </div>
         </div>
     </div>
@@ -134,6 +137,7 @@
             </div>
             <div class="modal-body">
 				<form method="POST" action="">
+					<?php echo csrfField(); ?>
 					<input type="hidden" name="accountID" id="accountID" value=""/>
 					<input type="hidden" name="unban" id="unban" value=""/>
 					<div class="form-group">
@@ -143,7 +147,7 @@
 				</form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php print $lang['close']; ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php print $lang['close']; ?></button>
             </div>
         </div>
     </div>

@@ -57,15 +57,15 @@ function simple_php_captcha($config = array()) {
     // Generate CAPTCHA code if not set by user
     if( empty($captcha_config['code']) ) {
         $captcha_config['code'] = '';
-        $length = mt_rand($captcha_config['min_length'], $captcha_config['max_length']);
+        $length = random_int($captcha_config['min_length'], $captcha_config['max_length']);
         while( strlen($captcha_config['code']) < $length ) {
-            $captcha_config['code'] .= substr($captcha_config['characters'], mt_rand() % (strlen($captcha_config['characters'])), 1);
+            $captcha_config['code'] .= substr($captcha_config['characters'], random_int(0, strlen($captcha_config['characters']) - 1), 1);
         }
     }
 
     // Generate HTML for image src
 	$image_src = '?_CAPTCHA&amp;t=' . urlencode(microtime());
-    $_SESSION['_CAPTCHA']['config'] = serialize($captcha_config);
+    $_SESSION['_CAPTCHA']['config'] = json_encode($captcha_config);
 
     return [
         'code' => $captcha_config['code'],
@@ -99,7 +99,7 @@ if( isset($_GET['_CAPTCHA']) ) {
 
     session_start();
 
-    $captcha_config = unserialize($_SESSION['_CAPTCHA']['config']);
+    $captcha_config = json_decode($_SESSION['_CAPTCHA']['config'], true);
     if( !$captcha_config ) exit();
 
     if( isset($_GET['_RENDER']) ) {

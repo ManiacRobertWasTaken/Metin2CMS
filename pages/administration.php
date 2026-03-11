@@ -18,8 +18,8 @@
 			$html_mail = sendCode($account_name, $code);
 			include 'include/functions/sendEmail.php';
 			
-			print '<div class="alert alert-success alert-dismissible fade in" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			print '<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>';
 			print $lang['sended-code'];
@@ -37,16 +37,16 @@
 				$html_mail = sendCode($account_name, $code, 2);
 				include 'include/functions/sendEmail.php';
 				
-				print '<div class="alert alert-success alert-dismissible fade in" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				print '<div class="alert alert-success alert-dismissible fade show" role="alert">
+							<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>';
 				print $lang['sended-code'];
 				print '</div>';
 			} else
 			{
-				print '<div class="alert alert-danger alert-dismissible fade in" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				print '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>';
 				print $lang['no-storekeeper'];
@@ -66,8 +66,8 @@
 			$html_mail = sendCode($account_name, $code, 3);
 			include 'include/functions/sendEmail.php';
 				
-			print '<div class="alert alert-success alert-dismissible fade in" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			print '<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>';
 			print $lang['sended-code'];
@@ -86,8 +86,8 @@
 			$html_mail = sendCode($account_name, $code, 4);
 			include 'include/functions/sendEmail.php';
 				
-			print '<div class="alert alert-success alert-dismissible fade in" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			print '<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>';
 			print $lang['sended-code'];
@@ -114,6 +114,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="submit" name="change-password" class="btn btn-primary btn-sm btn-block" onclick="return confirm('<?php print $lang['sure_send?']; ?>')" value="<?php print $lang['password']; ?> &raquo;" />
 					</form>
 				</div>
@@ -123,6 +124,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="submit" name="storekeeper-code" class="btn btn-primary btn-sm btn-block" onclick="return confirm('<?php print $lang['sure_send?']; ?>')" value="<?php print $lang['storekeeper']; ?> &raquo;" />
 					</form>
 				</div>
@@ -132,6 +134,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="submit" name="delete-code" class="btn btn-primary btn-sm btn-block" onclick="return confirm('<?php print $lang['sure_send?']; ?>')" value="<?php print $lang['send']; ?> &raquo;" />
 					</form>
 				</div>
@@ -142,6 +145,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="submit" name="delete-account" class="btn btn-danger btn-sm btn-block" onclick="return confirm('<?php print $lang['sure_send?']; ?>')" value="<?php print $lang['delete-account']; ?> &raquo;" />
 					</form>
 				</div>
@@ -151,6 +155,7 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="submit" name="cancel-delete-account" class="btn btn-warning btn-sm btn-block" value="<?php print $lang['cancel-delete-account']; ?> &raquo;" />
 					</form>
 				</div>

@@ -6,7 +6,7 @@
     <div class="page-hd" style="background-image: url(<?php print $site_url; ?>images/user.png)">
         <div class="bd-c">
             <h2 class="pre-social"><?php print $lang['chars']; ?></h2>
-			<small><?php print $account_name = getAccountName($_SESSION['id']); ?></small>
+			<small><?php print e($account_name = getAccountName($_SESSION['id'])); ?></small>
         </div>
     </div>
 	<div class="jumbotron jumbotron-fluid">
@@ -18,8 +18,8 @@
 					foreach($list as $player)
 						if($player['id']==intval($_POST['debug']))
 						{
-							print '<div class="alert alert-success alert-dismissible fade in" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							print '<div class="alert alert-success alert-dismissible fade show" role="alert">
+										<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>';
 							print $lang['debug-success'];
@@ -37,7 +37,7 @@
 			<?php if(count($list)) { ?>
 			<div style="background-color: white;">
 				<table class="table table-hover">
-					<thead class="thead-inverse">
+					<thead class="table-dark">
 						<tr>
 							<th><?php print $lang['rank-position']; ?></th>
 							<th><?php print $lang['class']; ?></th>
@@ -62,6 +62,7 @@
 							<?php if($jsondataFunctions['players-debug']) { ?>
 								<td>
 									<form action="" method="post">
+										<?php echo csrfField(); ?>
 										<input type="hidden" name="debug" value="<?php print $player['id']; ?>">
 										<button type="submit" name="submit" class="btn btn-primary btn-sm"><?php print $lang['debug']; ?></button>
 									</form>

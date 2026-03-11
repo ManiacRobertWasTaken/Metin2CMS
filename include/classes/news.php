@@ -139,22 +139,22 @@ class paginate
 					$string = substr($stringCut, 0, strrpos($stringCut, ' ')).'... <p class="more"><a href="'.$site_url.'read/'.$row['id'].'">'.$read_more.'</a></p>'; 
 				}
 				if(!$big)
-					$string = $row['content'];
+					$string = sanitizeHtml($row['content']);
 				?>
 				<li class="blog-post">
 					<div class="hd">
-							<h3 class="blog-title"><a href="<?php print $site_url; ?>read/<?php print $row['id']; ?>"><?php print $row['title']; ?></a>
+							<h3 class="blog-title"><a href="<?php print $site_url; ?>read/<?php print $row['id']; ?>"><?php print htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?></a>
 							<?php if($web_admin>=$news_lvl) { ?><a href="<?php print $site_url; ?>read/<?php print $row['id']; ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a> <a href="<?php print $site_url; ?>?delete=<?php print $row['id']; ?>" onclick="return confirm('<?php print $sure; ?>');"><i style="color:red;" class="fa fa-trash-o fa-2" aria-hidden="true"></i></a><?php } ?>
 							</h3>
 					</div>
 					<div class="meta">
-						<p class="blog-attribution"><?php print $row['time']; ?></p>
+						<p class="blog-attribution"><?php print htmlspecialchars($row['time'], ENT_QUOTES, 'UTF-8'); ?></p>
 					</div>
 					<div class="bd">
 						<div class="text">
 							<?php
 								if(isset($image['src']) && $big)
-									print '<center><img src="'.$image['src'].'" /></center>';
+									print '<center><img src="'.htmlspecialchars($image['src'], ENT_QUOTES, 'UTF-8').'" /></center>';
 							?>
 							<p><?php print $string; ?></p>
 						</div>
