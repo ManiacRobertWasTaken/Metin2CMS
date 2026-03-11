@@ -20,10 +20,13 @@
 	} else if(isset($_POST['delete']))
 	{
 		$edited = false;
-		if(isset($json_languages['languages'][$_POST['delete']]) && $_POST['delete'] != $json_languages['settings']['default'])
+		$delKey = preg_replace('/[^a-zA-Z0-9_-]/', '', $_POST['delete']);
+		if($delKey !== '' && $delKey === $_POST['delete'] && isset($json_languages['languages'][$delKey]) && $delKey != $json_languages['settings']['default'])
 		{
-			unset($json_languages['languages'][$_POST['delete']]);
-			unlink('include/languages/'.$_POST['delete'].'.php');
+			unset($json_languages['languages'][$delKey]);
+			$langFile = 'include/languages/'.$delKey.'.php';
+			if(file_exists($langFile))
+				unlink($langFile);
 			$edited = true;
 		}
 		
