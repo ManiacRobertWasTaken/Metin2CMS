@@ -35,6 +35,7 @@ The CMS runs on port 8000 by default. Environment variables in `docker-compose.y
 | `SMTP_SECURE` | `ssl` | SMTP encryption |
 | `SMTP_USER` | | SMTP username |
 | `SMTP_PASS` | | SMTP password |
+| `REDIS_HOST` | `redis` | Redis hostname |
 
 MANUAL INSTALLATION
 ------------
@@ -62,6 +63,7 @@ STACK
 ------------
 
 - PHP 8.3 + PDO
+- Redis 7 (query caching)
 - Bootstrap 5.3.3
 - jQuery 3.7.1
 - PHPMailer 6.9.3
@@ -113,7 +115,13 @@ CHANGELOG v3.0
 - Removed PclZip (using native ZipArchive)
 - Removed Tether.js
 
+**Performance**
+- Redis caching for statistics, rankings, news, and 14 frequently called DB queries
+- Automatic cache invalidation on data mutations (donate, news edit/delete, etc.)
+- Rankings capped at 50,000 entries for players and guilds
+
 **Infrastructure**
+- Redis 7 container (no external access, 64MB maxmemory, LRU eviction)
 - Docker setup for local development (Dockerfile, docker-compose.yml, entrypoint script)
 
 ### Preview
