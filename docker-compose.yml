@@ -1,0 +1,23 @@
+services:
+  cms:
+    build: .
+    ports:
+      - "8000:80"
+    environment:
+      - SITE_URL=http://localhost:8000/
+      - DB_HOST=mariadb
+      - DB_USER=mt2
+      - DB_PASS=mt2
+    networks:
+      - db_net
+    volumes:
+      - cms_data:/var/www/html/include/db
+    restart: unless-stopped
+
+networks:
+  db_net:
+    external: true
+    name: docker-db_default
+
+volumes:
+  cms_data:
