@@ -124,8 +124,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['login'];
+
+		return $result ? $result['login'] : null;
 	}
 
 	function getAccountEmail($id)
@@ -136,8 +136,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['email'];
+
+		return $result ? $result['email'] : null;
 	}
 
 	function getAccountMD($id)
@@ -148,8 +148,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['coins'];
+
+		return $result ? $result['coins'] : 0;
 	}
 
 	function getAccountSocialID($id)
@@ -172,8 +172,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['password'];
+
+		return $result ? $result['password'] : null;
 	}
 
 	function getAccountJD($id)
@@ -184,8 +184,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['jcoins'];
+
+		return $result ? $result['jcoins'] : 0;
 	}
 
 	function getAccountID($id)
@@ -196,8 +196,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['account_id'];
+
+		return $result ? $result['account_id'] : null;
 	}
 
 	function getAccountPassword($id)
@@ -208,8 +208,8 @@
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['password'];
+
+		return $result ? $result['password'] : null;
 	}
 
 	function topGuilds($limit=10)
@@ -1797,7 +1797,7 @@
 	{
 		global $database;
 		
-		$stmt = $database->runQueryPlayer("SELECT name FROM player WHERE name LIKE :name LIMIT 1");
+		$stmt = $database->runQueryPlayer("SELECT name FROM player WHERE name = :name LIMIT 1");
 		$stmt->bindparam(":name", $name);
 		$stmt->execute();
 		$userRow=$stmt->fetch(PDO::FETCH_ASSOC);

@@ -65,7 +65,7 @@ function simple_php_captcha($config = array()) {
 
     // Generate HTML for image src
 	$image_src = '?_CAPTCHA&amp;t=' . urlencode(microtime());
-    $_SESSION['_CAPTCHA']['config'] = serialize($captcha_config);
+    $_SESSION['_CAPTCHA']['config'] = json_encode($captcha_config);
 
     return [
         'code' => $captcha_config['code'],
@@ -99,7 +99,7 @@ if( isset($_GET['_CAPTCHA']) ) {
 
     session_start();
 
-    $captcha_config = unserialize($_SESSION['_CAPTCHA']['config']);
+    $captcha_config = json_decode($_SESSION['_CAPTCHA']['config'], true);
     if( !$captcha_config ) exit();
 
     if( isset($_GET['_RENDER']) ) {

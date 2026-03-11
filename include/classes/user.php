@@ -180,7 +180,7 @@ class USER
 	{
 		try
 		{
-			$stmt = $this->account->prepare("SELECT login FROM account WHERE login LIKE :username LIMIT 1");
+			$stmt = $this->account->prepare("SELECT login FROM account WHERE login = :username LIMIT 1");
 			$stmt->bindparam(":username", $username);
 			$stmt->execute();
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
@@ -199,7 +199,7 @@ class USER
 	{
 		try
 		{
-			$stmt = $this->account->prepare("SELECT email FROM account WHERE email LIKE :email LIMIT 1");
+			$stmt = $this->account->prepare("SELECT email FROM account WHERE email = :email LIMIT 1");
 			$stmt->bindparam(":email", $email);
 			$stmt->execute();
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);

@@ -8,13 +8,19 @@
 	if(isset($_POST["method"]) && strtolower($_POST["method"])=='paypal' && isset($_POST['id']) && isset($_POST['type']))
 	{
 		csrfCheck();
+		if(!isset($jsondataDonate[$_POST['id']]) || !isset($jsondataDonate[$_POST['id']]['list'][$_POST['type']]))
+		{
+			header("Location: ".$site_url);
+			die();
+		}
+
 		$return_url = $site_url."index.php";
 		$cancel_url = $site_url."index.php";
 		$notify_url = $site_url."paypal.php";
-		
+
 		$querystring = '';
 		$querystring .= "?business=".urlencode($paypal_email)."&";
-		
+
 		$price = $jsondataDonate[$_POST['id']]['list'][$_POST['type']];
 		
 		$querystring .= "item_name=".urlencode($jsondataDonate[$_POST['id']]['name'].' ['.$price['price'].' - '.$price['md'].' MD]')."&";
