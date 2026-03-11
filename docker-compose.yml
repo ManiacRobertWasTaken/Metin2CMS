@@ -8,10 +8,20 @@ services:
       - DB_HOST=mariadb
       - DB_USER=mt2
       - DB_PASS=mt2
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
     networks:
       - db_net
     volumes:
       - cms_data:/var/www/html/include/db
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --maxmemory 64mb --maxmemory-policy allkeys-lru
+    networks:
+      - db_net
     restart: unless-stopped
 
 networks:

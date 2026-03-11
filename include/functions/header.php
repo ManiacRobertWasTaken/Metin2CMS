@@ -40,6 +40,7 @@
 	
 	include 'include/functions/language.php';
 	
+	require_once("include/classes/cache.php");
 	require_once("include/classes/user.php");
 	
 	$jsondata = file_get_contents('include/db/settings.json');

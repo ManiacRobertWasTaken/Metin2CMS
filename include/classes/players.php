@@ -64,7 +64,7 @@ class paginate
 		
 	}
 	
-	public function paging($query,$records_per_page)
+	public function paging($query,$records_per_page,$maxRecords=50000)
 	{
 		$starting_position=0;
 		if(isset($_GET["page_no"]))
@@ -73,22 +73,24 @@ class paginate
 				if($_GET["page_no"]>1)
 					$starting_position=($_GET["page_no"]-1)*$records_per_page;
 		}
+		if($starting_position>=$maxRecords)
+			$starting_position=$maxRecords-$records_per_page;
 		$query2=$query." limit $starting_position,$records_per_page";
 		return $query2;
 	}
 	
-	public function paginglink($query,$records_per_page,$first,$last,$self,$search=NULL)
-	{		
+	public function paginglink($query,$records_per_page,$first,$last,$self,$search=NULL,$maxRecords=50000)
+	{
 		$self = $self.'ranking/players/';
-		
+
 		$sql = "SELECT count(*) ".strstr($query, 'FROM');
-		
+
 		$stmt = $this->db->prepare($sql);
 		if($search)
 			$stmt->bindValue(':search', $search.'%');
-		$stmt->execute(); 
-		
-		$total_no_of_records = $stmt->fetchColumn();
+		$stmt->execute();
+
+		$total_no_of_records = min($stmt->fetchColumn(), $maxRecords);
 		
 		if($total_no_of_records > 0)
 		{

@@ -96,13 +96,18 @@
 
 	function topPlayers($limit=10)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('top:players:'.$limit);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT id, name, account_id FROM player WHERE name NOT LIKE '[%]%' ORDER BY level DESC, exp DESC, playtime DESC, name ASC limit ?");
 		$stmt->bindParam(1, $limit, PDO::PARAM_INT);
 		$stmt->execute();
 		$top = $stmt->fetchAll();
-		
+
+		$cache->set('top:players:'.$limit, $top, 120);
 		return $top;
 	}
 
@@ -230,13 +235,18 @@
 
 	function topGuilds($limit=10)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('top:guilds:'.$limit);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT name, master FROM guild WHERE name NOT LIKE '[%]%' ORDER BY level DESC, ladder_point DESC, exp DESC, name ASC limit ?");
 		$stmt->bindParam(1, $limit, PDO::PARAM_INT);
 		$stmt->execute();
 		$top = $stmt->fetchAll();
-		
+
+		$cache->set('top:guilds:'.$limit, $top, 120);
 		return $top;
 	}
 
@@ -1288,28 +1298,35 @@
 	
 	function getStatistics($key)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('stats:'.$key);
+		if ($cached !== false) return $cached;
+
 		switch ($key) {
 			case 'players-online':
-				return countOnlinePlayers_minute(10);
+				$val = countOnlinePlayers_minute(10);
 				break;
 			case 'accounts-created':
-				return getAccountsTotalNumber();
+				$val = getAccountsTotalNumber();
 				break;
 			case 'created-characters':
-				return getCharsTotalNumber();
+				$val = getCharsTotalNumber();
 				break;
 			case 'guilds-created':
-				return getGuildsTotalNumber();
+				$val = getGuildsTotalNumber();
 				break;
 			case 'offline-shops':
-				return getOfflineShopsTotalNumber();
+				$val = getOfflineShopsTotalNumber();
 				break;
 			case 'players-online-last-24h':
-				return countOnlinePlayers_days(1);
+				$val = countOnlinePlayers_days(1);
 				break;
 			default:
 				return "ERROR";
 		}
+
+		$cache->set('stats:'.$key, $val, 60);
+		return $val;
 	}
 	
 	function checkStatus($id)

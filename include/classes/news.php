@@ -21,18 +21,18 @@ class paginate
 			$stmt->bindparam(":title", $title);
 			$stmt->bindparam(":content", $content);
 			$stmt->bindparam(":time", $time);
-				
+
 			$stmt->execute();
-			
+
+			Cache::getInstance()->flush('news:*');
 			return $stmt;
 		}
 		catch(PDOException $e)
 		{
-			//echo $e->getMessage();
 			print 'ERROR';
 		}
 	}
-	
+
 	public function edit($id, $title, $content)
 	{
 		try
@@ -44,36 +44,36 @@ class paginate
 			$stmt->bindparam(":content", $content);
 			$stmt->bindparam(":time", $time);
 			$stmt->bindparam(":id", $id);
-				
+
 			$stmt->execute();
-			
+
+			Cache::getInstance()->flush('news:*');
 			return $stmt;
 		}
 		catch(PDOException $e)
 		{
-			//echo $e->getMessage();
 			print 'ERROR';
 		}
 	}
-	
+
 	public function delete_article($id)
 	{
 		try
 		{		
 			$stmt = $this->db->prepare("DELETE FROM news WHERE id = :id");
 			$stmt->bindparam(":id", $id);
-				
+
 			$stmt->execute();
-			
+
+			Cache::getInstance()->flush('news:*');
 			return $stmt;
 		}
 		catch(PDOException $e)
 		{
-			//echo $e->getMessage();
 			print 'ERROR';
 		}
 	}
-	
+
 	public function check_id($id)
 	{
 		try
@@ -97,19 +97,23 @@ class paginate
 	
 	public function read($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('news:'.$id);
+		if ($cached !== false) return $cached;
+
 		try
-		{		
+		{
 			$stmt = $this->db->prepare("SELECT * FROM news WHERE id = :id LIMIT 1");
 			$stmt->bindparam(":id", $id);
-				
+
 			$stmt->execute();
 			$result = $stmt->fetch(PDO::FETCH_ASSOC);
-			
+
+			if ($result) $cache->set('news:'.$id, $result, 30);
 			return $result;
 		}
 		catch(PDOException $e)
 		{
-			//echo $e->getMessage();
 			print 'ERROR';
 		}
 	}

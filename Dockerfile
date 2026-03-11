@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y \
 	libsqlite3-dev \
 	libzip-dev \
 	&& docker-php-ext-install pdo_mysql curl gd zip \
+	&& pecl install redis \
+	&& docker-php-ext-enable redis \
 	&& a2enmod rewrite \
 	&& rm -rf /var/lib/apt/lists/*
 
