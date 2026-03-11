@@ -124,6 +124,150 @@ CHANGELOG v3.0
 - Redis 7 container (no external access, 64MB maxmemory, LRU eviction)
 - Docker setup for local development (Dockerfile, docker-compose.yml, entrypoint script)
 
+VPS SETUP (Ubuntu + Docker + Cloudflare)
+------------
+
+### 1. Install Docker
+
+```sh
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+logout
+```
+
+Log back in and verify:
+
+```sh
+docker --version
+```
+
+### 2. Clone the repo
+
+```sh
+git clone https://github.com/IonutPopescuRO/Metin2CMS.git
+cd Metin2CMS
+```
+
+### 3. Configure docker-compose.yml
+
+Edit the environment variables to match your setup:
+
+```yaml
+environment:
+  - SITE_URL=https://yourdomain.com/
+  - DB_HOST=mariadb
+  - DB_USER=mt2
+  - DB_PASS=your_db_password
+  - REDIS_HOST=redis
+  - SMTP_HOST=smtp.gmail.com
+  - SMTP_PORT=465
+  - SMTP_SECURE=ssl
+  - SMTP_USER=your@gmail.com
+  - SMTP_PASS=your_app_password
+```
+
+Make sure the `db_net` network matches your MariaDB container's network. If your database runs in a different Docker Compose project, check its network name:
+
+```sh
+docker network ls
+```
+
+Update the network name in `docker-compose.yml` if needed:
+
+```yaml
+networks:
+  db_net:
+    external: true
+    name: your_db_network_name
+```
+
+### 4. Start the CMS
+
+```sh
+docker compose up -d --build
+```
+
+The CMS runs on port 8000 internally. Don't expose this port publicly — Cloudflare will handle it.
+
+### 5. SSL certificate with Certbot
+
+```sh
+sudo apt install -y certbot
+sudo certbot certonly --standalone -d yourdomain.com
+```
+
+Certbot will generate certificates at:
+- `/etc/letsencrypt/live/yourdomain.com/fullchain.pem`
+- `/etc/letsencrypt/live/yourdomain.com/privkey.pem`
+
+Auto-renewal is enabled by default. Test it with:
+
+```sh
+sudo certbot renew --dry-run
+```
+
+### 6. Reverse proxy with Caddy (recommended)
+
+Install Caddy:
+
+```sh
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudflare.com/cloudflare-main.gpg' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudflare.com/caddy/stable/deb/debian/any-version/caddy-stable.list' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+sudo apt update && sudo apt install caddy
+```
+
+Edit `/etc/caddy/Caddyfile`:
+
+```
+yourdomain.com {
+	reverse_proxy localhost:8000
+	tls /etc/letsencrypt/live/yourdomain.com/fullchain.pem /etc/letsencrypt/live/yourdomain.com/privkey.pem
+}
+```
+
+```sh
+sudo systemctl restart caddy
+```
+
+### 7. Cloudflare DNS
+
+1. Add your domain to Cloudflare
+2. Set DNS A record: `@` → your VPS IP, **Proxied** (orange cloud)
+3. SSL/TLS → set to **Full (Strict)**
+4. Edge Certificates → enable **Always Use HTTPS**
+
+### 8. Firewall
+
+Only allow Cloudflare IPs and SSH:
+
+```sh
+sudo ufw default deny incoming
+sudo ufw allow ssh
+sudo ufw allow from 173.245.48.0/20 to any port 443
+sudo ufw allow from 103.21.244.0/22 to any port 443
+sudo ufw allow from 103.22.200.0/22 to any port 443
+sudo ufw allow from 103.31.4.0/22 to any port 443
+sudo ufw allow from 141.101.64.0/18 to any port 443
+sudo ufw allow from 108.162.192.0/18 to any port 443
+sudo ufw allow from 190.93.240.0/20 to any port 443
+sudo ufw allow from 188.114.96.0/20 to any port 443
+sudo ufw allow from 197.234.240.0/22 to any port 443
+sudo ufw allow from 198.41.128.0/17 to any port 443
+sudo ufw allow from 162.158.0.0/15 to any port 443
+sudo ufw allow from 104.16.0.0/13 to any port 443
+sudo ufw allow from 104.24.0.0/14 to any port 443
+sudo ufw allow from 172.64.0.0/13 to any port 443
+sudo ufw allow from 131.0.72.0/22 to any port 443
+sudo ufw enable
+```
+
+### 9. Verify
+
+- Visit `https://yourdomain.com` — should load the CMS
+- Check headers: `curl -I https://yourdomain.com` — should see CSP, X-Frame-Options, etc.
+- Admin panel: `https://yourdomain.com/admin/` (default: `admin` / `admin` — change immediately)
+
 ### Preview
 <details><summary>CLICK ME</summary>
 <p>
