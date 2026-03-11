@@ -381,7 +381,6 @@
 		
 		$stmt = $database->runQueryAccount("UPDATE account SET deletion_token=:deletion_token WHERE id=:id");
 		$stmt->execute(array(':deletion_token'=>$deletion_token, ':id'=>$id));
-		$stmt->execute();
 	}
 
 	function insert_delete_account($id)
@@ -1510,7 +1509,6 @@
 			
 			$stmt = $database->runQueryPlayer("UPDATE player SET ".$query." WHERE id=:id_player");
 			$stmt->execute($new_data);
-			$stmt->execute();
 		}
 	}
 	
