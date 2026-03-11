@@ -73,7 +73,7 @@ class USER
 		try
 		{
 			$password = getHashPassword($password);
-			$social_id = rand(1000000, 9999999); // updated in v2.12
+			$social_id = random_int(1000000, 9999999);
 			$status = "OK";
 			
 			$stmt = $this->account->prepare("INSERT INTO account(login, password, social_id, email, create_time, status) 
@@ -129,6 +129,7 @@ class USER
 				{
 					if(check_account_column('availDt') && check_availDt($userRow['id']))
 						return array(5, getLoginLastBanReason($userRow['id']), get_availDt($userRow['id']));
+					session_regenerate_id(true);
 					$_SESSION['id'] = $userRow['id'];
 					$_SESSION['password'] = securityPassword($userRow['password']);
 					$_SESSION['fingerprint'] = md5($_SERVER['HTTP_USER_AGENT'] . 'x' . $_SERVER['REMOTE_ADDR']);

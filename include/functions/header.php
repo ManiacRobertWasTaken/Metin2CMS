@@ -1,6 +1,9 @@
 <?php
+	ini_set('session.cookie_httponly', 1);
+	ini_set('session.cookie_samesite', 'Lax');
+	ini_set('session.use_strict_mode', 1);
 	session_start();
-	
+
 	header('Cache-control: private');
 	
 	$current_page = isset($_GET['p']) ? $_GET['p'] : null;
@@ -124,7 +127,7 @@
 		$apidata = file_get_contents('include/db/api.json');
 		$apidata = json_decode($apidata,true);
 		
-		if($_GET['key']==$apidata['key'])
+		if(hash_equals($apidata['key'], $_GET['key']))
 			die('ok');
 		else
 			die();
