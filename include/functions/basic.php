@@ -368,7 +368,7 @@
 			$obj[$v1][$v2]=$new;
 		}
 		
-		$json_new = json_encode($contentsDecoded);
+		$json_new = json_encode($obj);
 		
 		if(file_put_contents('include/settings.json', $json_new))
 			return true;
