@@ -146,7 +146,7 @@ class paginate
 				else
 				{
 					if($search)
-						print "<a class='page larger' href='".$self.$i."/".$search."'>".$i."</a>&nbsp;&nbsp;";
+						print "<a class='page larger' href='".$self.$i."/".htmlspecialchars(urlencode($search), ENT_QUOTES, 'UTF-8')."'>".$i."</a>&nbsp;&nbsp;";
 					else
 						print "<a class='page larger' href='".$self.$i."'>".$i."</a>&nbsp;&nbsp;";
 				}

@@ -12,7 +12,7 @@
 	?>
     <div class="bd-c">
         <ul class='blogroll'>
-			<h2 class="blog-title"><?php print $article['title']; ?>
+			<h2 class="blog-title"><?php print htmlspecialchars($article['title'], ENT_QUOTES, 'UTF-8'); ?>
 			<?php
 				if(!$offline && $database->is_loggedin())
 					if($web_admin>=$jsondataPrivileges['news'])
@@ -23,7 +23,7 @@
 					}
 			?>
 			</h2>
-			<p class="blog-attribution"><?php print $article['time']; ?></p>
+			<p class="blog-attribution"><?php print htmlspecialchars($article['time'], ENT_QUOTES, 'UTF-8'); ?></p>
 			<div class="text">
 				<div>
 					<div class="copy">
