@@ -6,7 +6,7 @@
 				print '<script>window.location = window.location.href;</script>';
 			}
 			
-		print '<form method="post" action="">';
+		print '<form method="post" action="">'.csrfField();
 		print '<p><a class="btn btn-primary" data-toggle="collapse" href="#edit" aria-expanded="false" aria-controls="edit"><i class="fa fa-pencil fa-2" aria-hidden="true"></i> '.$lang['edit-article'].'</a></p>';
 		print '<div class="collapse" id="edit"><div class="card card-block">';
 		print '<p>'.$lang['title'].':</p>';

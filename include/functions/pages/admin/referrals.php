@@ -4,6 +4,7 @@
 	
 	if(isset($_POST['submit']))
 	{
+		csrfCheck();
 		$edited = false;
 		
 		if(isset($_POST['status']) && $jsondataFunctions['active-referrals']!=$_POST['status'])

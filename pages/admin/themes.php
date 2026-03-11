@@ -37,7 +37,7 @@
 			<div class="card-block">
 				<h4 class="card-title"><?php print $mod['name']; ?></h4>
 				<p class="card-text"><?php print $mod['description']; ?></p>
-				<?php print '<form method="POST" action=""><input type="hidden" value="'.$mod['file'].'" name="install"><button type="submit" class="btn btn-success">'.$lang['install'].'</button></form>'; ?>
+				<?php print '<form method="POST" action="">'.csrfField().'<input type="hidden" value="'.$mod['file'].'" name="install"><button type="submit" class="btn btn-success">'.$lang['install'].'</button></form>'; ?>
 			</div>
 		</div>
     </div>

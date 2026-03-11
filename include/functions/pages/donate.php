@@ -7,6 +7,7 @@
 	
 	if(isset($_POST["method"]) && strtolower($_POST["method"])=='paypal' && isset($_POST['id']) && isset($_POST['type']))
 	{
+		csrfCheck();
 		$return_url = $site_url."index.php";
 		$cancel_url = $site_url."index.php";
 		$notify_url = $site_url."paypal.php";

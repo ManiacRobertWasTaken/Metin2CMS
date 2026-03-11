@@ -10,6 +10,7 @@
 				</div>
 			<?php } ?>
             <form role="form" method="post" action="">
+				<?php echo csrfField(); ?>
 				<table class="table table-hover" style="background-color: white;">
 					<tbody>
 						<tr>

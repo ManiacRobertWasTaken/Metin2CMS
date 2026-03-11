@@ -1,6 +1,7 @@
 <?php
 	if(isset($_POST['account']))
 	{
+		csrfCheck();
 		if($_POST['account']==1)
 			$account_id = getAccountIDbyName($_POST['name']);
 		else

@@ -16,6 +16,7 @@
 		}
 	} ?>
 	<form action="" method="post">
+		<?php echo csrfField(); ?>
 		<div class="form-group row">
 			<div class="col-sm-3">
 				<select class="form-control" name="account">

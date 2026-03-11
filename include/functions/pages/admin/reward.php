@@ -1,6 +1,7 @@
 <?php
 	if(isset($_POST['add']))
 	{
+		csrfCheck();
 		if(isset($_POST['account']))
 		{
 			if($_POST['account']==1)

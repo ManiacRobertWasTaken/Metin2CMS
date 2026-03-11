@@ -39,6 +39,7 @@
 		<p><?php print $lang['update-info']; ?></p>
 		
 		<form action="" method="post">
+			<?php echo csrfField(); ?>
 			<input type="submit" name="update" class="btn btn-success btn-lg btn-block" value="<?php print $lang['update']; ?>" />
 		</form>
 		

@@ -12,6 +12,7 @@
 	
 	if(isset($_POST['id']))
 	{
+		csrfCheck();
 		$getCharsINFO = getReferralsForCheck(intval($_POST['id']));
 		
 		if(count($getCharsINFO))

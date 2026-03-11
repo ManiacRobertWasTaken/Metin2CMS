@@ -1,6 +1,7 @@
 <?php
 	if(isset($_POST['search']) && strlen($_POST['search'])>=3)
 	{
+		csrfCheck();
 		header("Location: ".$site_url."admin/players/1/".$_POST['search']);
 		die();
 	} else if(isset($_POST['search']) && $_POST['search']=='')

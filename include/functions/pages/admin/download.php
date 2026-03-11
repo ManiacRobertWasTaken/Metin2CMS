@@ -7,6 +7,7 @@
 	
 	if(isset($_POST['submit']))
 	{
+		csrfCheck();
 		$new_link = array();
 		$new_link['name'] = $_POST['download_server'];
 		$new_link['link'] = $_POST['download_link'];

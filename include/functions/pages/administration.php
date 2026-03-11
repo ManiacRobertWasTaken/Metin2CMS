@@ -17,6 +17,7 @@
 			}
 	} else if(isset($_POST['cancel-delete-account']))
 	{
+		csrfCheck();
 		cancel_delete_account();
 		header("Location: ".$site_url."user/administration");
 		die();

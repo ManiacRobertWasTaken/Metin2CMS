@@ -10,6 +10,7 @@
 	
 	if(isset($_POST['submit']))
 	{
+		csrfCheck();
 		$new_link = array();
 		$new_link['name'] = $_POST['donation_method'];
 		$new_link['list'] = array();

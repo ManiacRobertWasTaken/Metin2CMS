@@ -20,6 +20,7 @@
 		
 		if(isset($_POST['submit']))
 		{
+			csrfCheck();
 			if($actual_data['name'] != $_POST['name'] && check_char_name($_POST['name']))
 			{
 				$triedName = $_POST['name'];

@@ -4,6 +4,21 @@
 	ini_set('session.use_strict_mode', 1);
 	session_start();
 
+	if(empty($_SESSION['csrf_token']))
+		$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+	function csrfField() {
+		return '<input type="hidden" name="csrf_token" value="'.$_SESSION['csrf_token'].'">';
+	}
+
+	function csrfCheck() {
+		if(!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token']))
+		{
+			http_response_code(403);
+			die('Invalid request');
+		}
+	}
+
 	header('Cache-control: private');
 	
 	$current_page = isset($_GET['p']) ? $_GET['p'] : null;

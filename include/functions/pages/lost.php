@@ -7,6 +7,7 @@
 			$message = 7;//bun
 			if(isset($_POST['password']) && isset($_POST['rpassword']))
 			{
+				csrfCheck();
 				if($_POST['password']==$_POST['rpassword'])
 				{
 					if(isValidUserPassword($_POST['password']))

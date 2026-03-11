@@ -1,5 +1,6 @@
 <div class="container">
     <form action="" method="post">
+		<?php echo csrfField(); ?>
 		<div class="form-group row">
 			<div class="col-sm-4">
 				<input type="text" class="form-control" name="download_server" placeholder="Server">

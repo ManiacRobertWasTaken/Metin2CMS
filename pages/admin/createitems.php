@@ -3,6 +3,7 @@
 ?>
 <div class="container">
     <form action="" method="post" class="form-horizontal">
+		<?php echo csrfField(); ?>
 
         <div class="form-group">
             <label class="control-label" for="name">

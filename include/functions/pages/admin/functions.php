@@ -1,6 +1,7 @@
 <?php
 	if(isset($_POST['submit']))
 	{
+		csrfCheck();
 		$edited = false;
 		
 		foreach($_POST as $key=>$value)

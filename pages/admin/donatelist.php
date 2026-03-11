@@ -20,6 +20,7 @@
 				<td><?php print $donate['type']; ?></td>
 				<td>
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="hidden" value="<?php print $md; ?>" name="md">
 						<input type="hidden" value="<?php print $donate['account_id']; ?>" name="account">
 						<input type="hidden" value="<?php print $donate['id']; ?>" name="id">

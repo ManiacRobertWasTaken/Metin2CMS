@@ -29,6 +29,7 @@
 		<div class="tab-pane active" id="player" role="tabpanel">
 			</br>
 			<form action="" method="post">
+				<?php echo csrfField(); ?>
 				<div class="form-group row">
 					<div class="col-sm-3">
 						<select class="form-control" name="account">
@@ -79,6 +80,7 @@
 		<div class="tab-pane" id="players" role="tabpanel">
 			</br>
 			<form action="" method="post">
+				<?php echo csrfField(); ?>
 				<div class="form-group">
 					<label class="control-label" for="vnum">vNum</label>
 					<input class="form-control" name="vnum" id="vnum" type="number">

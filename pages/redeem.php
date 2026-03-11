@@ -29,6 +29,7 @@
 		<?php } ?>
 			
 		<form action="" method="POST">
+			<?php echo csrfField(); ?>
 			<div class="input-group">
 				<input type="text" class="form-control form-control-lg" value="" name="code" required>
 				<span class="input-group-btn">

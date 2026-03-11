@@ -17,6 +17,7 @@
 	<?php } ?>
 
     <form action="" method="post">
+		<?php echo csrfField(); ?>
 		<div class="form-group row">
 			<div class="col-sm-6">
 				<input type="text" class="form-control" name="donation_method" placeholder="<?php print $lang['name']; ?>">
@@ -70,6 +71,7 @@
 								<td><?php print $price['md'].' MD'; ?></td>
 								<td>
 									<form action="" method="post">
+										<?php echo csrfField(); ?>
 										<input type="hidden" name="id" value="<?php print $i; ?>">
 										<input type="hidden" name="price_id" value="<?php print $j; ?>">
 										<button type="submit" name="submit_delete_price" class="btn btn-primary btn-sm"><?php print $lang['delete']; ?></button>
@@ -81,6 +83,7 @@
 					</table>
 				
 					<form action="" method="post">
+						<?php echo csrfField(); ?>
 						<input type="hidden" name="id" value="<?php print $i; ?>">
 						<div class="form-group row">
 							<div class="col-sm-4">

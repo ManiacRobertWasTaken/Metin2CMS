@@ -1,6 +1,7 @@
 <div class="container">
 
 	<form action="" method="post">
+		<?php echo csrfField(); ?>
 		<div class="form-group">
 			<label for="status"><?php print $lang['status']; ?></label>
 			<select class="form-control" id="status" name="status">

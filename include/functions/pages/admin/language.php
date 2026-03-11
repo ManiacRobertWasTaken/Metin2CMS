@@ -1,6 +1,7 @@
 <?php
 	if(isset($_POST['default-language']))
 	{
+		csrfCheck();
 		$edited = false;
 		
 		if(isset($json_languages['languages'][$_POST['default-language']]) && $_POST['default-language'] != $json_languages['settings']['default'])

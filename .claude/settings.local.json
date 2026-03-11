@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs head:*)",
+      "Bash(xargs wc:*)",
+      "Bash(wc -l /c/Users/duta_/Desktop/m2cms_rework/Metin2CMS/include/functions/*.php)",
+      "Bash(find /c/Users/duta_/Desktop/m2cms_rework/Metin2CMS -name \"*.json\" -type f -exec head -30 {} +)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker-compose ps:*)",
+      "Bash(docker-compose logs:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/)",
+      "Bash(curl -s http://localhost:8000/)",
+      "Bash(docker exec:*)",
+      "Bash(where mariadb:*)",
+      "Bash(where mysql:*)",
+      "Bash(powershell -Command \"Get-Service | Where-Object { $_.Name -match ''maria|mysql'' } | Format-Table Name, Status, DisplayName\")",
+      "Bash(powershell.exe -NoProfile -Command 'Get-Service | Where-Object { $_.Name -match \"\"maria|mysql\"\" } | Format-Table Name, Status, DisplayName')",
+      "Bash(docker ps:*)",
+      "Bash(docker inspect:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(grep -n \"echo.*$_\" /c/Users/duta_/Desktop/m2cms_rework/Metin2CMS/pages/register.php)",
+      "Bash(grep -n \"print.*$article\\\\|echo.*$article\" /c/Users/duta_/Desktop/m2cms_rework/Metin2CMS/pages/read.php)",
+      "Bash(grep -rn \"PDO::PARAM\" /c/Users/duta_/Desktop/m2cms_rework/Metin2CMS/include/classes/*.php)",
+      "Bash(grep -n \"include.*$_\\\\|require.*$_\" /c/Users/duta_/Desktop/m2cms_rework/Metin2CMS/pages/register.php)"
+    ]
+  }
+}
