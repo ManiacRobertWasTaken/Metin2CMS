@@ -82,16 +82,20 @@
 
 	function get_player_empire($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('player:empire:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT empire FROM player_index WHERE id = :id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		if($result)
-			return $result['empire'];
-		return 3;
+
+		$val = $result ? $result['empire'] : 3;
+		$cache->set('player:empire:'.$id, $val, 3600);
+		return $val;
 	}
 
 	function topPlayers($limit=10)
@@ -113,40 +117,56 @@
 
 	function get_guild_empire($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('guild:empire:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT empire FROM player.player_index WHERE pid1=:id OR pid2=:id OR pid3=:id OR pid4=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		if($result)
-			return $result['empire'];
-		return 3;
+
+		$val = $result ? $result['empire'] : 3;
+		$cache->set('guild:empire:'.$id, $val, 3600);
+		return $val;
 	}
 
 	function getPlayerName($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('player:name:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT name FROM player WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['name'];
+
+		$val = $result ? $result['name'] : null;
+		$cache->set('player:name:'.$id, $val, 3600);
+		return $val;
 	}
 
 	function getAccountName($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('account:name:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT login FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
 
-		return $result ? $result['login'] : null;
+		$val = $result ? $result['login'] : null;
+		$cache->set('account:name:'.$id, $val, 3600);
+		return $val;
 	}
 
 	function getAccountEmail($id)
@@ -163,26 +183,38 @@
 
 	function getAccountMD($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('account:coins:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT coins FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
 
-		return $result ? $result['coins'] : 0;
+		$val = $result ? $result['coins'] : 0;
+		$cache->set('account:coins:'.$id, $val, 300);
+		return $val;
 	}
 
 	function getAccountSocialID($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('account:socialid:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT social_id FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['social_id'];
+
+		$val = $result ? $result['social_id'] : null;
+		$cache->set('account:socialid:'.$id, $val, 7200);
+		return $val;
 	}
 
 	function getPlayerSafeBoxPassword($id)
@@ -199,26 +231,38 @@
 
 	function getAccountJD($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('account:jcoins:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT jcoins FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
 
-		return $result ? $result['jcoins'] : 0;
+		$val = $result ? $result['jcoins'] : 0;
+		$cache->set('account:jcoins:'.$id, $val, 300);
+		return $val;
 	}
 
 	function getAccountID($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('player:accountid:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT account_id FROM player WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
 
-		return $result ? $result['account_id'] : null;
+		$val = $result ? $result['account_id'] : null;
+		$cache->set('player:accountid:'.$id, $val, 3600);
+		return $val;
 	}
 
 	function getAccountPassword($id)
@@ -306,15 +350,20 @@
 	
 	function characters_list()
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('player:charlist:'.$_SESSION['id']);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer('SELECT id, name, job, level, exp
 			FROM player
 			WHERE account_id = ? ORDER BY level DESC, exp DESC, name ASC');
 		$stmt->bindParam(1, $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
-		
+
+		$cache->set('player:charlist:'.$_SESSION['id'], $result, 600);
 		return $result;
 	}
 	
@@ -370,14 +419,20 @@
 
 	function web_admin_level()
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('account:webadmin:'.$_SESSION['id']);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT web_admin FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $_SESSION['id'], PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['web_admin'];
+
+		$val = $result['web_admin'];
+		$cache->set('account:webadmin:'.$_SESSION['id'], $val, 1800);
+		return $val;
 	}
 
 	function jsonUpdate($v1, $v2, $new)
@@ -1331,16 +1386,20 @@
 	
 	function checkStatus($id)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('account:status:'.$id);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT status FROM account WHERE id=:id");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		if($result['status']=="OK")
-			return 1;
-		else return 0;
+
+		$val = ($result['status']=="OK") ? 1 : 0;
+		$cache->set('account:status:'.$id, $val, 600);
+		return $val;
 	}
 	
 	function check_account_column($name)
@@ -1742,26 +1801,40 @@
 	
 	function getAccountIDbyName($name)
 	{
+		$cache = Cache::getInstance();
+		$k = 'account:id:name:'.md5($name);
+		$cached = $cache->get($k);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryAccount("SELECT id FROM account WHERE login LIKE ?");
 		$stmt->bindParam(1, $name, PDO::PARAM_STR);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['id'];
+
+		$val = $result ? $result['id'] : null;
+		$cache->set($k, $val, 3600);
+		return $val;
 	}
 	
 	function getAccountIDbyChar($name)
 	{
+		$cache = Cache::getInstance();
+		$k = 'player:accountid:name:'.md5($name);
+		$cached = $cache->get($k);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer("SELECT account_id FROM player WHERE name LIKE ?");
 		$stmt->bindParam(1, $name, PDO::PARAM_STR);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
-		return $result['account_id'];
+
+		$val = $result ? $result['account_id'] : null;
+		$cache->set($k, $val, 3600);
+		return $val;
 	}
 	
 	function getReferrals()
@@ -1795,15 +1868,20 @@
 	
 	function getPlayerInfo($account)
 	{
+		$cache = Cache::getInstance();
+		$cached = $cache->get('player:info:'.$account);
+		if ($cached !== false) return $cached;
+
 		global $database;
-		
+
 		$stmt = $database->runQueryPlayer('SELECT *
 			FROM player
 			WHERE account_id = ? ORDER BY level DESC LIMIT 1');
 		$stmt->bindParam(1, $account, PDO::PARAM_INT);
 		$stmt->execute();
 		$result=$stmt->fetch(PDO::FETCH_ASSOC);
-		
+
+		if ($result) $cache->set('player:info:'.$account, $result, 600);
 		return $result;
 	}
 	
